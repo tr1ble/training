@@ -15,6 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 public class User {
+
     @Basic
     @Id
     @Column(name="login", nullable = false, length = 45, unique = true)
