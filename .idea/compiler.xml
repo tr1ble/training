@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="business" />
-        <module name="dao-api" />
+        <module name="service" />
         <module name="web" />
         <module name="dao-hibernate" />
-        <module name="service" />
+        <module name="dao-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
