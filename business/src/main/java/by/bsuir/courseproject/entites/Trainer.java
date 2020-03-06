@@ -1,9 +1,6 @@
 package by.bsuir.courseproject.entites;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,6 +12,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Setter
 public class Trainer extends Man implements Identifable {
 
     @Id
@@ -25,6 +23,7 @@ public class Trainer extends Man implements Identifable {
 
     @Basic
     @Column(name="busy", nullable = false)
+    @Setter
     private boolean isBusy;
 
     @Basic
@@ -39,4 +38,7 @@ public class Trainer extends Man implements Identifable {
         return id;
     }
 
+    public void setBusy(boolean busy) {
+        isBusy = busy;
+    }
 }

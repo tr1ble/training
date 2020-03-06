@@ -1,10 +1,7 @@
 package by.bsuir.courseproject.entites;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +11,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class User {
 
     @Basic
@@ -28,4 +27,16 @@ public class User {
     @Column(name="role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 }

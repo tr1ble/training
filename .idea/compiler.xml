@@ -7,14 +7,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="business" />
-        <module name="service" />
         <module name="web" />
-        <module name="dao-hibernate" />
-        <module name="dao-api" />
+        <module name="service" />
+      </profile>
+      <profile name="Annotation profile for core" enabled="true">
+        <sourceOutputDir name="../dao-api/target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../dao-api/target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="repository-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="databaseapi" target="1.5" />
+      <module name="springdata-repository" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
