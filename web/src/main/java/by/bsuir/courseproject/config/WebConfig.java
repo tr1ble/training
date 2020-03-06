@@ -26,5 +26,65 @@ import java.util.Locale;
 @ComponentScan({"by.bsuir.courseproject.config", "by.bsuir.courseproject.controller"})
 public class WebConfig
         extends WebMvcConfigurerAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebConfig.class);
+
+    private static final String LANG = "lang";
+    private static final String DEFAULT_LANG = "en";
+    private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String RESOURCE_BUNDLE_CLASSPATH = "classpath:messages";
+
+    @Autowired
+    private LocaleChangeInterceptor localeChangeInterceptor;
+
+    @Bean
+    public SessionLocaleResolver localeResolver() {
+        SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+        sessionLocaleResolver.setDefaultLocale(new Locale(DEFAULT_LANG));
+        return sessionLocaleResolver;
+    }
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName(LANG);
+        return localeChangeInterceptor;
+    }
+    @Bean
+    public HandlerMapping handlerMapping() {
+        RequestMappingHandlerMapping requestMappingHandlerMapping = new RequestMappingHandlerMapping();
+        requestMappingHandlerMapping.setInterceptors(localeChangeInterceptor);
+        return requestMappingHandlerMapping;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
+        reloadableResourceBundleMessageSource.setBasename(RESOURCE_BUNDLE_CLASSPATH);
+        reloadableResourceBundleMessageSource.setDefaultEncoding(DEFAULT_ENCODING);
+        return reloadableResourceBundleMessageSource;
+    }
+
+
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+
+    @Bean
+    public FilterRegistrationBean<HiddenHttpMethodFilter> hiddenHttpMethodFilter() {
+        FilterRegistrationBean<HiddenHttpMethodFilter> filterRegistrationBean = new FilterRegistrationBean<>(new HiddenHttpMethodFilter());
+        filterRegistrationBean.setUrlPatterns(Collections.singletonList("/*"));
+        return filterRegistrationBean;
+    }
 
 }
