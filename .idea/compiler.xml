@@ -8,13 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="business" />
         <module name="web" />
-        <module name="service" />
-      </profile>
-      <profile name="Annotation profile for core" enabled="true">
-        <sourceOutputDir name="../dao-api/target/generated-sources/annotations" />
-        <sourceTestOutputDir name="../dao-api/target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
         <module name="repository-api" />
+        <module name="service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

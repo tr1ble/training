@@ -14,8 +14,7 @@
         <module>web</module>
         <module>service</module>
         <module>business</module>
-        <module>dao-hibernate</module>
-        <module>dao-api</module>
+        <module>repository-api</module>
     </modules>
 
     <properties>
