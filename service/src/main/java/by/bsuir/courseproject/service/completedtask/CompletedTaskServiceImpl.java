@@ -1,6 +1,7 @@
 package by.bsuir.courseproject.service.completedtask;
 
 import by.bsuir.courseproject.entites.CompletedTask;
+import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.repository.CompletedTaskRepository;
 
 
@@ -19,7 +20,9 @@ public class CompletedTaskServiceImpl implements CompletedTaskService {
     @Autowired
     private CompletedTaskRepository completedTaskRepository;
 
+    @Autowired
     public CompletedTaskServiceImpl()  {
+        this.completedTaskRepository = completedTaskRepository;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -29,8 +32,8 @@ public class CompletedTaskServiceImpl implements CompletedTaskService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void add(CompletedTask completedTask)  {
-        completedTaskRepository.save(completedTask);
+    public CompletedTask add(CompletedTask completedTask)  {
+        return completedTaskRepository.save(completedTask);
     }
 
     @Override

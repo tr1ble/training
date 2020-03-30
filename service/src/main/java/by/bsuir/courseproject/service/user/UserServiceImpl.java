@@ -1,6 +1,7 @@
 package by.bsuir.courseproject.service.user;
 
 
+import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.entites.User;
 import by.bsuir.courseproject.repository.UserRepository;
 
@@ -37,8 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void add(User user) {
-        userRepository.save(user);
+    public User add(User user) {
+       return userRepository.save(user);
     }
 
     @Override

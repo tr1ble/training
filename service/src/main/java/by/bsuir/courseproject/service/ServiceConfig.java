@@ -1,5 +1,6 @@
 package by.bsuir.courseproject.service;
 
+import by.bsuir.courseproject.DatabaseConnectionConfig;
 import by.bsuir.courseproject.service.completedtask.CompletedTaskService;
 import by.bsuir.courseproject.service.completedtask.CompletedTaskServiceImpl;
 import by.bsuir.courseproject.service.course.CourseService;
@@ -18,12 +19,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@ComponentScan(basePackages = {"by.training.project"},
-        excludeFilters={
-                @ComponentScan.Filter(type= FilterType.ANNOTATION, value= EnableWebMvc.class)
-        })
 @PropertySource("classpath:database.properties")
-@Import({RepositoryConfig.class})
+@Import({DatabaseConnectionConfig.class})
 public class ServiceConfig {
 
 
@@ -32,12 +29,12 @@ public class ServiceConfig {
                 return new UserDetailsServiceImpl();
         }
 
-        @Bean(name="userService")
+        @Bean
         public UserService userService() {
                 return new UserServiceImpl();
         }
 
-        @Bean(name="trainerService")
+        @Bean
         public TrainerService trainerService() {
                 return new TrainerServiceImpl();
         }

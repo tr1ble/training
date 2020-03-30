@@ -1,5 +1,6 @@
 package by.bsuir.courseproject.service.task;
 
+import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.entites.Task;
 import by.bsuir.courseproject.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void add(Task task) {
-        taskRepository.save(task);
+    public Task add(Task task) {
+        return taskRepository.save(task);
     }
 
     @Override

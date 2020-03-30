@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Controller
+@RestController
 public class StudentController {
 
     private static final String COURSE_ID = "courseId";

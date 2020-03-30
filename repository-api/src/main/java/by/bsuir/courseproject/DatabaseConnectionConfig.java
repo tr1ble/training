@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:database.properties")
 @EnableTransactionManagement
-@ComponentScan("by.training.project")
+@ComponentScan("by.bsuir.courseproject")
 public class DatabaseConnectionConfig {
 
 

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Controller
+@RestController
 public class AdminEditController {
 
     private final static Logger LOG = LoggerFactory.getLogger(AdminEditController.class.getName());

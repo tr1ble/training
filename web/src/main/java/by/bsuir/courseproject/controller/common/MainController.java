@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Controller
+@RestController
 public class MainController {
 
     private static final String BUSY_TRAINER_LIST = "busy-trainer-list";

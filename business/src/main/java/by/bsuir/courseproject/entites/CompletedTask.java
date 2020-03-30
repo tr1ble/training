@@ -13,7 +13,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Entity
-@Table(name="completed_task", schema = "training")
+@Table(name="completed_task")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

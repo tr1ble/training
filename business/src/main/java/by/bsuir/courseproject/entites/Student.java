@@ -10,7 +10,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name="student", schema = "training")
+@Table(name="student")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

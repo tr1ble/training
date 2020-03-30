@@ -1,8 +1,10 @@
 package by.bsuir.courseproject.service.student;
 
+import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.entites.Student;
 import by.bsuir.courseproject.repository.StudentRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.util.Optional;
 @Transactional
 public class StudentServiceImpl implements StudentService {
 
+    @Autowired
     private StudentRepository studentRepository;
 
 
@@ -41,8 +44,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void add(Student student) {
-        studentRepository.save(student);
+    public Student add(Student student) {
+        return studentRepository.save(student);
     }
 
     @Override

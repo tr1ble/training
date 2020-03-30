@@ -1,5 +1,6 @@
 package by.bsuir.courseproject.service.trainer;
 
+import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.entites.Trainer;
 import by.bsuir.courseproject.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void add(Trainer trainer) {
+    public Trainer add(Trainer trainer) {
         trainer.setBusy(false);
-        trainerRepository.save(trainer);
+        return trainerRepository.save(trainer);
     }
 
 

@@ -20,7 +20,7 @@ import java.text.ParseException;
 import java.util.List;
 
 
-@Controller
+@RestController
 public class AdminDeleteController {
 
     private static final String COURSE_ID = "courseId";

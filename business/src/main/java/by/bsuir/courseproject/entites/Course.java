@@ -12,7 +12,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name="course", schema = "training")
+@Table(name="course")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

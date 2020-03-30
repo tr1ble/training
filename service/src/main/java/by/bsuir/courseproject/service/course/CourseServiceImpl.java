@@ -27,8 +27,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void add(Course course)  {
-        courseRepository.save(course);
+    public Course add(Course course)  {
+        return courseRepository.save(course);
     }
 
     @Override

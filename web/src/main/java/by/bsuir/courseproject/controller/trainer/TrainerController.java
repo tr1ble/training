@@ -1,12 +1,11 @@
 package by.bsuir.courseproject.controller.trainer;
 
-import by.training.project.entities.CompletedTask;
-import by.training.project.entities.Student;
-import by.training.project.entities.Task;
-import by.training.project.exceptions.RepositoryException;
-import by.training.project.service.completedtask.CompletedTaskService;
-import by.training.project.service.student.StudentService;
-import by.training.project.service.task.TaskService;
+
+import by.bsuir.courseproject.entites.Course;
+import by.bsuir.courseproject.entites.Trainer;
+import by.bsuir.courseproject.service.completedtask.CompletedTaskService;
+import by.bsuir.courseproject.service.student.StudentService;
+import by.bsuir.courseproject.service.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Controller
+@RestController
 public class TrainerController {
 
 
@@ -41,6 +40,21 @@ public class TrainerController {
     private StudentService studentService;
     private TaskService taskService;
     private CompletedTaskService completedTaskService;
+
+
+    @RequestMapping(value = "/trainers")
+    public List<Trainer> trainersPage(Model model) {
+
+        List<Trainer> trainerList= trainerService.getAll();
+        model.addAttribute(TRAINERS_LIST, trainerList);
+
+        List<Course> courseList = courseService.getAll();
+        model.addAttribute(courseList);
+
+        System.out.println(trainerList);
+
+        return trainerList;
+    }
 
 
 

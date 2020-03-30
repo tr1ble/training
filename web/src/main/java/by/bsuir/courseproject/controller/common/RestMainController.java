@@ -32,7 +32,6 @@ public class RestMainController {
     }
 
     @RequestMapping(value = "/trainers")
-    @ResponseBody
     public List<Trainer> trainersPage(Model model) {
 
         List<Trainer> trainerList= trainerService.getAll();
