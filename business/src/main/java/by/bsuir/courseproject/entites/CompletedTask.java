@@ -1,23 +1,17 @@
 package by.bsuir.courseproject.entites;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="completed_task")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class CompletedTask extends Task {
 
 
@@ -31,9 +25,8 @@ public class CompletedTask extends Task {
    @Column(name="feedback", nullable = false)
    private String feedback;
 
-   @Basic
-   @Column(name="student", length = 75, nullable = false)
-   private String student;
-
+   @ManyToOne
+   @JoinColumn(name="student_id")
+   private Student student;
 
 }

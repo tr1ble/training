@@ -1,20 +1,17 @@
 package by.bsuir.courseproject.entites;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="student")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Student extends Man implements Identifable {
 
     @Id

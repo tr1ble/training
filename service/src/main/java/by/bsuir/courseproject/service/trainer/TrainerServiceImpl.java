@@ -1,7 +1,7 @@
 package by.bsuir.courseproject.service.trainer;
 
-import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.entites.Trainer;
+import by.bsuir.courseproject.entites.User;
 import by.bsuir.courseproject.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,15 +43,15 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public Optional<Trainer> getTrainerByID(int id) {
+    public Optional<Trainer> getById(int id) {
         return trainerRepository.findById(id);
     }
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void changeTrainerBusy(int id, boolean isBusy) {
-        Optional<Trainer> trainerByID = getTrainerByID(id);
+    public void changeBusy(int id, boolean isBusy) {
+        Optional<Trainer> trainerByID = getById(id);
         Trainer trainer;
         if(trainerByID.isPresent()) {
             trainer= trainerByID.get();
@@ -61,17 +61,17 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
-    public Optional<Trainer> findCurrentTrainerByUserLogin(String login) throws IllegalArgumentException {
-        return trainerRepository.findByLogin(login);
+    public Optional<Trainer> findByUser(User user) throws IllegalArgumentException {
+        return trainerRepository.findByUser(user);
     }
 
     @Override
-    public Optional<Trainer> getTrainerByFio(String surname, String firstname, String secname) {
-        return trainerRepository.findBySurnameAndNameAndSecname(surname, firstname, secname);
+    public Optional<Trainer> findByFio(String surname, String firstname, String secname) {
+        return trainerRepository.findBySurnameAndFirstnameAndSecondname(surname, firstname, secname);
     }
 
     @Override
-    public List<Trainer> getTrainerByBusy(boolean busy) {
+    public List<Trainer> findByBusy(boolean busy) {
         return trainerRepository.findByBusy(busy);
     }
 

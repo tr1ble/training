@@ -2,6 +2,7 @@ package by.bsuir.courseproject.service.user;
 
 
 import by.bsuir.courseproject.entites.Course;
+import by.bsuir.courseproject.entites.Role;
 import by.bsuir.courseproject.entites.User;
 import by.bsuir.courseproject.repository.UserRepository;
 
@@ -33,8 +34,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public User getUser(String username) {
-        return userRepository.findByLogin(username).get();
+    public Optional<User> getUserByLogin(String username) {
+        return userRepository.findByLogin(username);
+    }
+
+    @Override
+    public List<User> findByRole(String role) {
+        return userRepository.findByRole(Role.valueOf(role));
     }
 
     @Override
@@ -56,4 +62,5 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
 }

@@ -6,12 +6,13 @@ import javax.persistence.*;
 import java.util.Objects;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "trainer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@RequiredArgsConstructor
 @Setter
 public class Trainer extends Man implements Identifable {
 
@@ -24,11 +25,12 @@ public class Trainer extends Man implements Identifable {
     @Basic
     @Column(name="busy", nullable = false)
     @Setter
-    private boolean isBusy;
+    private boolean busy;
 
     @Basic
     @ManyToOne
-    @JoinColumn(name = "user_login", nullable = false)
+    @JoinColumn(name = "login", nullable = false)
+    @NonNull
     private User user;
 
 
@@ -38,7 +40,5 @@ public class Trainer extends Man implements Identifable {
         return id;
     }
 
-    public void setBusy(boolean busy) {
-        isBusy = busy;
-    }
+
 }

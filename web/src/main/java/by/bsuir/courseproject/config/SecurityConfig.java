@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.formLogin()
-                .loginPage("/")
+                .loginPage("/login")
                 .loginProcessingUrl("/j_spring_security_check")
                 .successHandler(successAuthHandler())
                 .failureUrl("/home?error")
@@ -56,15 +56,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/error").permitAll()
                 .antMatchers("/courses").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
                 .antMatchers("/trainers").hasAnyRole("ADMINISTRATOR", "TRAINER")
+                .antMatchers("/users").hasAnyRole("ADMINISTRATOR")
                 .antMatchers("/registration").hasRole("STUDENT")
                 .antMatchers("/unregister").hasRole("STUDENT")
-                .antMatchers("/addCourse", "/addTrainer", "/addTask").hasRole("ADMINISTRATOR")
-                .antMatchers("/course/**", "/trainer/*", "/task/*").hasRole("ADMINISTRATOR")
-                .antMatchers("/editCourse", "/editTrainer").hasRole("ADMINISTRATOR")
-                .antMatchers("/editCourse/**", "/editTrainer/*").hasRole("ADMINISTRATOR")
+                .antMatchers("/course", "/trainer", "/task").hasRole("ADMINISTRATOR")
+                .antMatchers("/course/*", "/task/*", "/completedtaask/*").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
                 .antMatchers("/registration").hasRole("STUDENT")
                 .antMatchers("/verify").hasRole("TRAINER")
-                .antMatchers("/history").hasRole("TRAINER");
+                .antMatchers("/history/*").hasRole("TRAINER");
 
     }
 

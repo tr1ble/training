@@ -28,15 +28,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Role getRole() {
-        return role;
+    public User(String username) {
+        this.login = username;
     }
 }

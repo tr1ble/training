@@ -47,7 +47,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> getTaskById(int taskId) {
+    public Optional<Task> findById(int taskId) {
         return taskRepository.findById(taskId);
+    }
+
+    @Override
+    public List<Task> findByCourse(Course course) {
+        return null;
     }
 }

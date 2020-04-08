@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface UserService extends Service<User> {
     Optional<User> login(String login, String password);
-    User getUser(String username);
+    Optional<User> getUserByLogin(String username);
+    List<User> findByRole(String role);
 }

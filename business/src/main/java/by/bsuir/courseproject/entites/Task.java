@@ -1,9 +1,6 @@
 package by.bsuir.courseproject.entites;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -14,6 +11,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class Task implements Identifable {
 
     @Id
@@ -24,15 +22,19 @@ public class Task implements Identifable {
 
     @Basic
     @Column(name="title", nullable = false, length = 45)
+    @NonNull
     private String title;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @NonNull
     private Course course;
 
     @Basic
     @Column(name="task_description", nullable = false, length = 45)
+    @NonNull
     private String description;
+
 
     @Override
     public Integer getId() {

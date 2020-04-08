@@ -1,6 +1,7 @@
 package by.bsuir.courseproject.service.course;
 
 import by.bsuir.courseproject.entites.Course;
+import by.bsuir.courseproject.entites.Trainer;
 import by.bsuir.courseproject.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Optional<Course> findCourseById(int id)  {
+    public Optional<Course> findById(int id)  {
         return courseRepository.findById(id);
+    }
+
+    @Override
+    public List<Course> findByTrainer(Trainer trainer) {
+        return courseRepository.findByTrainer(trainer);
     }
 
 

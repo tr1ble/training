@@ -2,6 +2,7 @@ package by.bsuir.courseproject.service.student;
 
 import by.bsuir.courseproject.entites.Course;
 import by.bsuir.courseproject.entites.Student;
+import by.bsuir.courseproject.entites.User;
 import by.bsuir.courseproject.repository.StudentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,19 +50,29 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<Student> findCurrentStudentByLogin(String login) throws IllegalArgumentException{
-        return studentRepository.findByLogin(login);
+    public Optional<Student> findById(int id) {
+        return studentRepository.findById(id);
+    }
+
+    @Override
+    public List<Student> findByCourse(Course course) {
+        return studentRepository.findByCourse(course);
+    }
+
+    @Override
+    public Optional<Student> findCurrentStudentByUser(User user) throws IllegalArgumentException{
+        return studentRepository.findByUser(user);
     }
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void removeStudentByCourseId(int id) {
-        studentRepository.deleteByCourse(String.valueOf(id));
+    public void removeByCourse(Course course) {
+        studentRepository.deleteByCourse(course);
     }
 
     @Override
-    public Optional<Student> getTrainerByFio(String surname, String firstname, String secname) {
-        return studentRepository.findBySurnameAndNameAndSecname(surname, firstname, secname);
+    public Optional<Student> findByFio(String surname, String firstname, String secname) {
+        return studentRepository.findBySurnameAndFirstnameAndSecondname(surname, firstname, secname);
     }
 }

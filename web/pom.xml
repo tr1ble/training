@@ -6,7 +6,7 @@
 
     <artifactId>web</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>by.bsuir</groupId>

@@ -1,6 +1,9 @@
 package by.bsuir.courseproject.entites;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Basic;
@@ -9,6 +12,8 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Man {
 
     @Basic
@@ -21,17 +26,5 @@ public class Man {
     @Column(name="secondname", length = 45, nullable = true)
     private String secondname;
 
-
-    //package private
-    Man() {
-    }
-
-
-    //package private
-    Man(String firstname, String surname, String secondname) {
-        this.firstname = firstname;
-        this.surname = surname;
-        this.secondname = secondname;
-    }
 
 }

@@ -1,14 +1,10 @@
 package by.bsuir.courseproject.entites;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
-import java.util.Objects;
 
 
 @Entity
@@ -16,6 +12,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Builder
 public class Course implements Identifable {
 
@@ -28,21 +25,26 @@ public class Course implements Identifable {
 
     @ManyToOne
     @JoinColumn(name = "trainer_id")
+    @NonNull
     private Trainer trainer;
 
     @Basic
     @Column(name = "title", length = 45, nullable = false)
+    @NonNull
     private String title;
 
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
     @Pattern(regexp = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))", message = "Invalid date format(must be yyyy-MM-dd)")
+    @NonNull
     private Date startDate;
 
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     @Pattern(regexp = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))", message = "Invalid date format(must be yyyy-MM-dd)")
+    @NonNull
     private Date endDate;
+
 
     @Override
     public Integer getId() {
