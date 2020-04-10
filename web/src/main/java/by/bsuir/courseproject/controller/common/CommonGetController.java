@@ -39,6 +39,11 @@ public class CommonGetController {
         this.trainerService = trainerService;
     }
 
+    @RequestMapping(value = "/")
+    public  String training() {
+        return "Online training application";
+    }
+
     @RequestMapping(value = "/courses")
     public  ResponseEntity<List<Course>> getCourses() {
         return ResponseEntity.ok(courseService.getAll());
