@@ -57,7 +57,7 @@ public class ConnectionPool {
             DriverManagerDataSource dataSource = new DriverManagerDataSource();
             dataSource.setDriverClassName(driver);
             dataSource.setUrl(url);
-            dataSource.setPassword(password);
+            //dataSource.setPassword(password);
             dataSource.setUsername(user);
             sources.add(dataSource);
         }
