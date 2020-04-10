@@ -35,12 +35,6 @@
         </dependency>
         <dependency>
             <groupId>by.bsuir</groupId>
-            <artifactId>dao-hibernate</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>by.bsuir</groupId>
             <artifactId>dao-api</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
