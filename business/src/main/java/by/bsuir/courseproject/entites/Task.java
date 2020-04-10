@@ -13,7 +13,6 @@ import java.util.Objects;
 @Builder
 @RequiredArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-@MappedSuperclass
 public class Task implements Identifable {
 
     @Id
