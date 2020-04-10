@@ -39,10 +39,10 @@ public class DatabaseConnectionConfig {
     @Bean
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        //dataSourceBuilder.driverClassName(driver);
+        dataSourceBuilder.driverClassName(driver);
         dataSourceBuilder.url(url);
         dataSourceBuilder.username(user);
-        //dataSourceBuilder.password(password);
+        dataSourceBuilder.password(password);
         return dataSourceBuilder.build();
     }
 
