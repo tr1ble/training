@@ -1,6 +1,5 @@
 package by.bsuir.courseproject.service;
 
-import by.bsuir.courseproject.DatabaseConnectionConfig;
 import by.bsuir.courseproject.service.completedtask.CompletedTaskService;
 import by.bsuir.courseproject.service.completedtask.CompletedTaskServiceImpl;
 import by.bsuir.courseproject.service.course.CourseService;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @PropertySource("classpath:database.properties")
-@Import({DatabaseConnectionConfig.class})
 public class ServiceConfig {
 
 
