@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="completed_task")
 @Data
