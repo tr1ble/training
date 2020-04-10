@@ -12,6 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @RequiredArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Task implements Identifable {
 
     @Id
