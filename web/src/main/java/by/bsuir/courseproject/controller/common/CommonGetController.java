@@ -66,12 +66,6 @@ public class CommonGetController {
         return ResponseEntity.ok(completedTaskService.getAll());
     }
 
-    @RequestMapping(value = "/completedtasks/findByCourse/{id}")
-    public ResponseEntity<List<CompletedTask>> getCompletedTasksByCourse(@PathVariable int id) {
-        Optional<Course> courseOptional = courseService.findById(id);
-        return courseOptional.map(course -> ResponseEntity.ok(completedTaskService.findByCourse(course))).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     @RequestMapping(value = "/completedtasks/findByStudent/{id}")
     public ResponseEntity<List<CompletedTask>> getCompletedTasksByStudent(@PathVariable int id) {
         Optional<Student> studentOptional = studentService.findById(id);
@@ -84,7 +78,7 @@ public class CommonGetController {
     }
 
     @RequestMapping(value = "/completedtasks/findByCourse/{id}")
-    public ResponseEntity<List<CompletedTask>> getCompletedTasksByBusy(@PathVariable int id) {
+    public ResponseEntity<List<CompletedTask>> getCompletedTasksByCourse(@PathVariable int id) {
         Optional<Course> courseOptional = courseService.findById(id);
         return courseOptional.map(course -> ResponseEntity.ok(completedTaskService.findByCourse(course))).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
