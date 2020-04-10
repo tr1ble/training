@@ -12,7 +12,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @RequiredArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public class Task implements Identifable {
 
     @Id

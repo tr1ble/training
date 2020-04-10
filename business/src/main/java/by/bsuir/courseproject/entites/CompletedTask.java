@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 
 @Entity
 @Data
+@Table(name="completed_task")
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompletedTask extends Task {
