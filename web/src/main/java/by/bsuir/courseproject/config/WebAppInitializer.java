@@ -1,6 +1,5 @@
 package by.bsuir.courseproject.config;
 
-import by.bsuir.courseproject.DatabaseConnectionConfig;
 import by.bsuir.courseproject.service.ServiceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { RootConfig.class, SecurityConfig.class, ServiceConfig.class, DatabaseConnectionConfig.class};
+        return new Class<?>[] { RootConfig.class, SecurityConfig.class, ServiceConfig.class};
     }
 
     @Override
