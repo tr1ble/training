@@ -52,18 +52,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/home")
                 .invalidateHttpSession(true);
-        http.authorizeRequests()
-                .antMatchers( "/error").permitAll()
-                .antMatchers("/courses").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
-                //.antMatchers("/trainers").hasAnyRole("ADMINISTRATOR", "TRAINER")
-                //.antMatchers("/users").hasAnyRole("ADMINISTRATOR")
-                .antMatchers("/registration").hasRole("STUDENT")
-                .antMatchers("/unregister").hasRole("STUDENT")
-                .antMatchers("/course", "/trainer", "/task").hasRole("ADMINISTRATOR")
-                .antMatchers("/course/*", "/task/*", "/completedtaask/*").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
-                .antMatchers("/registration").hasRole("STUDENT")
-                .antMatchers("/verify").hasRole("TRAINER")
-                .antMatchers("/history/*").hasRole("TRAINER");
+//        http.authorizeRequests()
+//                .antMatchers( "/error").permitAll()
+//                .antMatchers("/courses").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
+//                //.antMatchers("/trainers").hasAnyRole("ADMINISTRATOR", "TRAINER")
+//                //.antMatchers("/users").hasAnyRole("ADMINISTRATOR")
+//                .antMatchers("/registration").hasRole("STUDENT")
+//                .antMatchers("/unregister").hasRole("STUDENT")
+//                .antMatchers("/course", "/trainer", "/task").hasRole("ADMINISTRATOR")
+//                .antMatchers("/course/*", "/task/*", "/completedtaask/*").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
+//                .antMatchers("/registration").hasRole("STUDENT")
+//                .antMatchers("/verify").hasRole("TRAINER")
+//                .antMatchers("/history/*").hasRole("TRAINER");
 
     }
 
