@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -74,6 +76,7 @@ public class AdminAddController {
     @RequestMapping(value = {"/user"}, method = RequestMethod.POST)
     @Transactional
     public ResponseEntity<User> addUser(@RequestBody(required = false) User user) {
+        user.setPassword(new MessageDigestPasswordEncoder("MD5").encode(user.getPassword()));
         return new ResponseEntity<>(userService.add(user), HttpStatus.OK);
 
     }

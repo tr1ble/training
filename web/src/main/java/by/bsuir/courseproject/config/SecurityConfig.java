@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,8 +22,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Autowired
     public void registerGlobalAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -51,19 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/home")
-                .invalidateHttpSession(true);
-//        http.authorizeRequests()
-//                .antMatchers( "/error").permitAll()
-//                .antMatchers("/courses").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
-//                //.antMatchers("/trainers").hasAnyRole("ADMINISTRATOR", "TRAINER")
-//                //.antMatchers("/users").hasAnyRole("ADMINISTRATOR")
-//                .antMatchers("/registration").hasRole("STUDENT")
-//                .antMatchers("/unregister").hasRole("STUDENT")
-//                .antMatchers("/course", "/trainer", "/task").hasRole("ADMINISTRATOR")
-//                .antMatchers("/course/*", "/task/*", "/completedtaask/*").hasAnyRole("ADMINISTRATOR", "TRAINER", "STUDENT")
-//                .antMatchers("/registration").hasRole("STUDENT")
-//                .antMatchers("/verify").hasRole("TRAINER")
-//                .antMatchers("/history/*").hasRole("TRAINER");
+                .invalidateHttpSession(true)
+                .and()
+                .httpBasic().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
 
