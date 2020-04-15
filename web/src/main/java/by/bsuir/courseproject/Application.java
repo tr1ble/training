@@ -18,7 +18,7 @@ public class Application {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("localhost:8080/*");
+                registry.addMapping("/*").allowedOrigins("http://training-online.herokuapp.com/*");
             }
         };
     }

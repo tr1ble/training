@@ -29,11 +29,11 @@ public class CommonGetController {
     private CompletedTaskService completedTaskService;
     private TrainerService trainerService;
     private CourseService courseService;
-    private UserService userService;
+
 
     @Autowired
-    public CommonGetController(StudentService studentService, TaskService taskService, CompletedTaskService completedTaskService, TrainerService trainerService, CourseService courseService, UserService userService) {
-        this.userService = userService;
+    public CommonGetController(StudentService studentService, TaskService taskService, CompletedTaskService completedTaskService, TrainerService trainerService, CourseService courseService) {
+
         this.courseService = courseService;
         this.studentService = studentService;
         this.taskService = taskService;
