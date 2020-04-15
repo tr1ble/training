@@ -10,6 +10,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {"by.bsuir.courseproject"}, excludeFilters={
                 @ComponentScan.Filter(type= FilterType.ANNOTATION, value= EnableWebMvc.class)
         })
-@PropertySource("classpath:database.properties")
 public class RootConfig {
 }

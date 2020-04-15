@@ -24,7 +24,8 @@ public class AdminGetController {
 
     @RequestMapping(value = "/users")
     public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(userService.getAll());
+        List<User> users = userService.getAll();
+        return ResponseEntity.ok(users);
     }
 
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)

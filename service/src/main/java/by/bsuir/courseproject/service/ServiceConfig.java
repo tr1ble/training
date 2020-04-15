@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@PropertySource("classpath:database.properties")
 public class ServiceConfig {
 
 
