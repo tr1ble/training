@@ -46,11 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/j_spring_security_check")
                 .successHandler(successAuthHandler())
                 .failureUrl("/home?error")
-                .usernameParameter("j_username")
-                .passwordParameter("j_password")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
