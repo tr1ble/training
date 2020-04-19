@@ -42,6 +42,7 @@ public class WebConfig
         sessionLocaleResolver.setDefaultLocale(new Locale(DEFAULT_LANG));
         return sessionLocaleResolver;
     }
+    
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
