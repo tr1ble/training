@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         try {
             String login = authenticationRequestDto.getLogin();
