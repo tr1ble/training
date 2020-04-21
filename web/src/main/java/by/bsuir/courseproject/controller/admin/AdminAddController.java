@@ -53,13 +53,11 @@ public class AdminAddController {
 
 
     @RequestMapping(value = {"/course"}, method = RequestMethod.POST)
-    @Transactional
     public Course addCourse(@RequestBody(required = false) Course course) {
         return courseService.add(course);
     }
 
     @RequestMapping(value = {"/task"}, method = RequestMethod.POST)
-    @Transactional
     public Task addTask(@RequestBody(required = false) Task task) {
 
         return taskService.add(task);
@@ -67,29 +65,30 @@ public class AdminAddController {
     }
 
     @RequestMapping(value = {"/trainer"}, method = RequestMethod.POST)
-    @Transactional
     public ResponseEntity<Trainer> addTrainer(@RequestBody(required = false) Trainer trainer) {
         return new ResponseEntity<>(trainerService.add(trainer), HttpStatus.OK);
     }
 
 
     @RequestMapping(value = {"/user"}, method = RequestMethod.POST)
-    @Transactional
-    public ResponseEntity<User> addUser(@RequestBody(required = false) User user) {
-        user.setPassword(new MessageDigestPasswordEncoder("MD5").encode(user.getPassword()));
-        return new ResponseEntity<>(userService.add(user), HttpStatus.OK);
+    public ResponseEntity addUser(@RequestBody(required = false) User user) {
+        Optional<User> userOptional = userService.getUserByLogin(user.getLogin());
+        if(!userOptional.isPresent()) {
+            userService.add(user);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("This login is already taken", HttpStatus.OK);
+        }
 
     }
 
     @RequestMapping(value = {"/completedtask"}, method = RequestMethod.POST)
-    @Transactional
     public CompletedTask addCompletedTask(@RequestBody(required = false) CompletedTask completedTask) {
         return completedTaskService.add(completedTask);
 
     }
 
     @RequestMapping(value = {"/student"}, method = RequestMethod.POST)
-    @Transactional
     public Student addStudent(@RequestBody(required = false) Student student) {
         return studentService.add(student);
 

@@ -10,23 +10,12 @@ import by.bsuir.courseproject.service.task.TaskService;
 import by.bsuir.courseproject.service.task.TaskServiceImpl;
 import by.bsuir.courseproject.service.trainer.TrainerService;
 import by.bsuir.courseproject.service.trainer.TrainerServiceImpl;
-import by.bsuir.courseproject.service.user.UserDetailsServiceImpl;
 import by.bsuir.courseproject.service.user.UserService;
 import by.bsuir.courseproject.service.user.UserServiceImpl;
 import org.springframework.context.annotation.*;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@ComponentScan(value = "")
 public class ServiceConfig {
-
-
-        @Bean(name="userDetailsService")
-        public UserDetailsService userDetailsService() {
-                return new UserDetailsServiceImpl();
-        }
 
         @Bean
         public UserService userService() {

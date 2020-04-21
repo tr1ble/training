@@ -1,4 +1,4 @@
-package by.bsuir.courseproject.config;
+package by.bsuir.courseproject.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

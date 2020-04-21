@@ -1,5 +1,6 @@
 package by.bsuir.courseproject.config;
 
+import by.bsuir.courseproject.config.security.SecurityConfig;
 import by.bsuir.courseproject.service.ServiceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

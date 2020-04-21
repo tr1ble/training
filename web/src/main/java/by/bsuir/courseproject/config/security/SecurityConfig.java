@@ -1,9 +1,12 @@
-package by.bsuir.courseproject.config;
+package by.bsuir.courseproject.config.security;
 
 
+import by.bsuir.courseproject.config.security.jwt.JwtConfigurer;
+import by.bsuir.courseproject.config.security.jwt.JwtTokenProvider;
 import by.bsuir.courseproject.controller.SuccessAuthHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,47 +23,38 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
+@ComponentScan("by.bsuir.courseproject.config.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
 
-    @Autowired
-    public void registerGlobalAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService)
-                .passwordEncoder(getMd5PasswordEncoder());
     }
 
     @Bean
-    public AuthenticationSuccessHandler successAuthHandler() {
-        return new SuccessAuthHandler();
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.formLogin()
-                .loginPage("/login")
-                .successHandler(successAuthHandler())
-                .failureUrl("/home?error")
+        http.httpBasic().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/users").hasRole("ADMINISTRATOR")
+                //.anyRequest().authenticated()
                 .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/home")
-                .invalidateHttpSession(true)
-                .and()
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .apply(new JwtConfigurer(jwtTokenProvider));
 
     }
 
 
-    private PasswordEncoder getMd5PasswordEncoder() {
-        return new MessageDigestPasswordEncoder("MD5");
-    }
 }

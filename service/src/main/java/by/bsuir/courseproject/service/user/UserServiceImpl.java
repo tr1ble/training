@@ -7,6 +7,8 @@ import by.bsuir.courseproject.entites.User;
 import by.bsuir.courseproject.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     public UserServiceImpl() throws IllegalArgumentException {
@@ -44,8 +48,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void removeByLogin(String login) {
+        userRepository.removeByLogin(login);
+    }
+
+    @Override
     public User add(User user) {
-       return userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override

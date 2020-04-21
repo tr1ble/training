@@ -15,4 +15,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     Optional<User> findByLogin(String login);
     Optional<User> findByLoginAndPassword(String login, String password);
     List<User> findByRole(Role role);
+    void removeByLogin(String login);
 }

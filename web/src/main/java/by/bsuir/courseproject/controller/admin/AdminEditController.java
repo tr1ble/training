@@ -53,7 +53,6 @@ public class AdminEditController {
     }
 
     @RequestMapping(value = {"/course"}, method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<Course> editCourse(@RequestBody Course course) {
         courseService.update(course);
         return ResponseEntity.ok(course);
@@ -61,28 +60,24 @@ public class AdminEditController {
 
 
     @RequestMapping(value = {"/task"}, method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<Task> editTask(@RequestBody Task task) {
        taskService.update(task);
        return ResponseEntity.ok(task);
     }
 
     @RequestMapping(value = {"/trainer"}, method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<Trainer> editTrainer(@RequestBody Trainer trainer) {
         trainerService.update(trainer);
         return ResponseEntity.ok(trainer);
 
     }
     @RequestMapping(value = {"/user"}, method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<User> editUser(@RequestBody User user) {
         userService.update(user);
         return ResponseEntity.ok(user);
     }
 
     @RequestMapping(value = {"/student"}, method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         studentService.update(student);
         return ResponseEntity.ok(student);
@@ -90,7 +85,6 @@ public class AdminEditController {
     }
 
     @RequestMapping(value = {"/completedTask"}, method = RequestMethod.PUT)
-    @Transactional
     public ResponseEntity<CompletedTask> editTrainer(@RequestBody CompletedTask completedTask) {
         completedTaskService.update(completedTask);
         return ResponseEntity.ok(completedTask);
