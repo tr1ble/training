@@ -1,9 +1,7 @@
 package by.bsuir.courseproject.config;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
@@ -11,4 +9,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
                 @ComponentScan.Filter(type= FilterType.ANNOTATION, value= EnableWebMvc.class)
         })
 public class RootConfig {
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 }
