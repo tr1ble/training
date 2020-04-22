@@ -3,7 +3,6 @@ package by.bsuir.courseproject.config.security;
 
 import by.bsuir.courseproject.config.security.jwt.JwtConfigurer;
 import by.bsuir.courseproject.config.security.jwt.JwtTokenProvider;
-import by.bsuir.courseproject.controller.SuccessAuthHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
