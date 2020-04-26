@@ -51,6 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").hasRole("ADMINISTRATOR")
                 //.anyRequest().authenticated()
                 .and()
+                .logout()
+                .permitAll()
+                .logoutUrl("/logout")
+                .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
 
     }
