@@ -51,6 +51,7 @@ public class AuthenticationController {
             Map<Object, Object> response = new HashMap<>();
             response.put("login", login);
             response.put("token", token);
+            response.put("role", user.get().getRole());
             return ResponseEntity.ok(response);
         } catch (AuthenticationException ex) {
             throw new BadCredentialsException("Invalid password");
