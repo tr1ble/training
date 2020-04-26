@@ -35,7 +35,7 @@ public class CommonAddController {
             userService.add(user);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("This login is already taken", HttpStatus.OK);
+            return new ResponseEntity<>("This login is already taken", HttpStatus.NOT_FOUND);
         }
 
     }
