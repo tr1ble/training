@@ -1,7 +1,7 @@
-import { Route } from "react-router-dom";
-import PageNotFound from "screens/PageNotFound";
+import { Route } from 'react-router-dom';
+import PageNotFound from 'screens/PageNotFound';
 
-import * as screens from "screens";
+import * as screens from 'screens';
 
 interface RouteType {
   route: any;
@@ -10,7 +10,8 @@ interface RouteType {
 }
 
 const authRoutes: RouteType[] = [
-  { exact: true, route: screens.AuthPage, path: "/" }
+  { exact: true, route: screens.AuthPage, path: '/' },
+  { exact: true, route: screens.RegisterPage, path: '/register' },
 ];
 
 export default authRoutes;

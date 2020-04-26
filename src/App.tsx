@@ -1,24 +1,21 @@
-import React from 'react';
-import { Provider, inject, observer } from "mobx-react";
+import React from "react";
+import { inject, observer } from 'mobx-react';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  RouteProps,
-} from 'react-router-dom';
+import { Router, Route, Switch, RouteProps } from "react-router-dom";
 
-import stores from "stores";
-import * as screens from "screens";
-import routes from 'routes';
+import * as screens from 'screens';
+import routes from "routes";
+import history from 'global/history';
 
-import './App.css';
+import { Alert } from 'antd';
+
+import "./App.css";
 
 interface AppProps {
   authState?: any;
 }
 
-@inject('authState')
+@inject("authState")
 @observer
 class App extends React.PureComponent<AppProps> {
   getRoutes() {
@@ -27,18 +24,42 @@ class App extends React.PureComponent<AppProps> {
     const actualRoutes = authorized ? routes.mainRoutes : routes.authRoutes;
 
     return actualRoutes.map(route => (
-      <Route path={route.path} exact={route.exact} component={route.route} />
+      <Route
+        key={route.path}
+        path={route.path}
+        exact={route.exact}
+        component={route.route}
+      />
     ));
   }
 
   render() {
-    const { authorized, setAuthorized } = this.props.authState;
+    const {
+      isAlertVisible,
+      textAlert,
+      typeAlert,
+      authorized,
+      setAuthorized,
+      hideAlert,
+    } = this.props.authState;
     return (
       <>
-        <a href="/test">test</a>
-        <div onClick={setAuthorized}>authorize</div>
-        <Router>
-          <div className={'appContainer'}>
+        <Router history={history}>
+          <div className={"appContainer"}>
+            {isAlertVisible && (
+              <Alert
+                className={'alertContainer'}
+                message={textAlert}
+                type={typeAlert}
+                closable
+                onClose={() => {
+                  setTimeout(() => {
+                    hideAlert();
+                  }, 1000);
+                }}
+              />
+            )}
+
             <Switch>
               {this.getRoutes()}
               <Route component={screens.PageNotFound} />
