@@ -65,6 +65,17 @@ public class WebConfig
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+
+    @Override
+    public void addCorsMappings(CorsRegistry corsRegistry) {
+        corsRegistry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedHeaders("Content-Type", "Access-Control-Allow-Origin",
+                        "Access-Control-Allow-Headers", "Authorization", "X-Requested-With",
+                        "requestId", "Correlation-Id")
+                .allowedMethods("GET", "PUT", "POST", "DELETE");
+    }
+
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
