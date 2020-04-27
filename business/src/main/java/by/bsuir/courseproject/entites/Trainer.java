@@ -22,6 +22,19 @@ public class Trainer extends Man implements Identifable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private  int id;
 
+
+    @Basic
+    @Column(name="firstname", length = 45, nullable = false)
+    private String firstname;
+
+    @Basic
+    @Column(name="surname", length = 45, nullable = false)
+    private String surname;
+    
+    @Basic
+    @Column(name="secondname", length = 45, nullable = true)
+    private String secondname;
+
     @Basic
     @Column(name="busy", nullable = false)
     @Setter

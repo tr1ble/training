@@ -28,6 +28,16 @@ public class Student extends Man implements Identifable {
     @JoinColumn(name="course_id")
     private Course course;
 
+    @Basic
+    @Column(name="firstname", length = 45, nullable = false)
+    private String firstname;
+    @Basic
+    @Column(name="surname", length = 45, nullable = false)
+    private String surname;
+    @Basic
+    @Column(name="secondname", length = 45, nullable = true)
+    private String secondname;
+
 
     @Override
     public Integer getId() {
