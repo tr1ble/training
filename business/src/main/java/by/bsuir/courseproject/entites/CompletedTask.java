@@ -24,7 +24,7 @@ public class CompletedTask extends Task {
    @Column(name="feedback", nullable = false)
    private String feedback;
 
-   @ManyToOne
+   @ManyToOne(cascade = CascadeType.REMOVE)
    @JoinColumn(name="student_id")
    private Student student;
 

@@ -24,7 +24,7 @@ public class Student extends Man implements Identifable {
     @JoinColumn(name="user_login")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="course_id")
     private Course course;
 
