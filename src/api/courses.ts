@@ -17,26 +17,50 @@ export async function deleteCourse({ id }: { id: number }) {
 }
 
 export async function createCourse({
-  id,
   title,
   startDate,
   endDate,
   trainer
 }: {
-  id: number;
   title: string;
   startDate: string;
   endDate: string;
-  trainer: object;
+  trainer: any;
 }) {
   const instance = await getInstance();
 
   const response = await instance.post('/course', {
-    id,
+    // id: 100,
     title,
     startDate,
     endDate,
     trainer
+  });
+
+  return response.data;
+}
+
+export async function registerToCourse({
+  firstname,
+  surname,
+  secondname,
+  user,
+  course
+}: {
+  firstname: string;
+  surname: string;
+  secondname: string;
+  user: any;
+  course: any;
+}) {
+  const instance = await getInstance();
+
+  const response = await instance.post('/student', {
+    firstname,
+    surname,
+    secondname,
+    user,
+    course,
   });
 
   return response.data;

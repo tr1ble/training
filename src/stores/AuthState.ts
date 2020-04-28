@@ -10,6 +10,7 @@ class AuthState {
   @observable typeAlert: "warning" | "error" | "success" = "warning";
 
   @observable login = '';
+  @observable password: string | null = '';
 
   @observable role:
     | "ROLE_STUDENT"
@@ -23,10 +24,12 @@ class AuthState {
     runInAction(() => {
       this.authorized = false;
       this.login = "";
+      this.password = "";
       this.role = undefined;
     });
     localStorage.setItem('authorized', "false");
     localStorage.setItem('login', "");
+    localStorage.setItem('password', "");
     localStorage.setItem('role', "");
   };
 
@@ -68,7 +71,7 @@ class AuthState {
       await register({
         login,
         password,
-        role
+        role: "ROLE_STUDENT"
       });
       this.showAlert("Пользователь успешно зарегестрирован", "success");
       history.goBack();
@@ -90,10 +93,12 @@ class AuthState {
         this.authorized = true;
         this.login = login;
         this.role = role;
+        this.password = password;
       });
       localStorage.setItem('authorized', "true");
       localStorage.setItem('login', login);
       localStorage.setItem('role', role);
+      localStorage.setItem('password', password);
     } catch (error) {
       this.showAlert("Ошибка входа", "error");
     }
@@ -102,6 +107,7 @@ class AuthState {
   @action autoLogin = async () => {
     const authorized = localStorage.getItem('authorized') == 'true';
     const login = localStorage.getItem("login");
+    const password = localStorage.getItem("password");
     const role = localStorage.getItem("role");
 
     const resRole = role === null ? undefined : role;
@@ -116,6 +122,7 @@ class AuthState {
           this.authorized = true;
           this.role = resRole;
           this.login = login;
+          this.password = password;
         });
       }
     }

@@ -1,25 +1,32 @@
-import { action, observable, runInAction, configure } from 'mobx';
-import history from 'global/history';
+import { action, observable, runInAction, configure } from "mobx";
+import history from "global/history";
 import {
   register,
   loginAttempt,
   getAllUsers,
   deleteUser,
-  updateUserRole,
-} from 'api/auth';
-import { getAllCourses, createCourse } from "api/courses";
-import { getAllTrainers, createTrainer, deleteTrainer } from "api/trainers";
-import { getAllStudents } from "api/students";
+  updateUserRole
+} from "api/auth";
+import {
+  getAllCourses,
+  createCourse,
+  deleteCourse,
+  registerToCourse,
+} from 'api/courses';
+import { getAllTrainers, createTrainer, deleteTrainer } from 'api/trainers';
+import { getAllStudents, getStudent } from 'api/students';
 
-configure({ enforceActions: 'observed' });
+configure({ enforceActions: "observed" });
 
 class ProfileState {
-  @observable login = '01';
+  @observable login = "01";
   @observable role:
-    | "ROLE_STUDENT"
-    | "ROLE_TRAINER"
-    | "ROLE_ADMINISTRATOR"
-    | undefined = 'ROLE_STUDENT';
+    | 'ROLE_STUDENT'
+    | 'ROLE_TRAINER'
+    | 'ROLE_ADMINISTRATOR'
+    | undefined = "ROLE_STUDENT";
+  @observable loginedStudent = false;
+  @observable myCourse = false;
   @observable all_users = [];
   @observable all_students = [];
   @observable all_trainers = [];
@@ -30,6 +37,15 @@ class ProfileState {
       this.getAllStudents();
       this.getAllTrainers();
       this.getAllUsers();
+      this.getAllCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action initStudentProfile = async () => {
+    try {
+      //this.getStudent({})
       this.getAllCourses();
     } catch (error) {
       console.log(error);
@@ -94,7 +110,7 @@ class ProfileState {
   @action deleteTrainer = async ({
     id,
     login,
-    password,
+    password
   }: {
     id: number;
     login: string;
@@ -102,9 +118,20 @@ class ProfileState {
   }) => {
     try {
       await deleteTrainer({ id });
-      await updateUserRole({ login, password, role: 'ROLE_STUDENT' });
+      await updateUserRole({ login, password, role: "ROLE_STUDENT" });
       await this.getAllUsers();
       await this.getAllTrainers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action deleteCourse = async ({ id }: { id: number }) => {
+    try {
+      await deleteCourse({ id });
+      //await updateUserRole({ login, password, role: "ROLE_STUDENT" });
+      await this.getAllCourses();
+      //await this.getAllTrainers();
     } catch (error) {
       console.log(error);
     }
@@ -114,7 +141,7 @@ class ProfileState {
     firstname,
     surname,
     secondname,
-    user
+    user,
   }: {
     firstname: string;
     surname: string;
@@ -123,9 +150,77 @@ class ProfileState {
   }) => {
     try {
       await createTrainer({ firstname, secondname, surname, user });
-      //await updateUserRole({ login: user.login, role: 'ROLE_TRAINER' });
+      await updateUserRole({
+        login: user.login,
+        password: user.password,
+        role: "ROLE_TRAINER"
+      });
       this.getAllUsers();
       this.getAllTrainers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action createCourse = async ({
+    title,
+    startDate,
+    endDate,
+    trainer
+  }: {
+    title: string;
+    startDate: string;
+    endDate: string;
+    trainer: any;
+  }) => {
+    try {
+      await createCourse({ title, startDate, endDate, trainer });
+      //await updateUserRole({ login: user.login, role: "ROLE_TRAINER" });
+      //this.getAllUsers();
+      this.getAllTrainers();
+      this.getAllCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action createStudent = async ({
+    firstname,
+    surname,
+    secondname,
+    user,
+    course,
+  }: {
+    firstname: string;
+    surname: string;
+    secondname: string;
+    course: any;
+    user: any;
+  }) => {
+    try {
+      await registerToCourse({ firstname, surname, secondname, user, course });
+      //await updateUserRole({ login: user.login, role: "ROLE_TRAINER" });
+      //this.getAllUsers();
+      //this.getAllTrainers();
+      //this.getAllCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action getLoginedStudent = async ({ username }: { username: string }) => {
+    try {
+      const result = await getStudent({ username });
+      //console.log("!");
+      //console.log(res);
+      runInAction(() => {
+        this.myCourse = result.course;
+        this.loginedStudent = result;
+      });
+      //await updateUserRole({ login: user.login, role: "ROLE_TRAINER" });
+      //this.getAllUsers();
+      //this.getAllTrainers();
+      //this.getAllCourses();
     } catch (error) {
       console.log(error);
     }

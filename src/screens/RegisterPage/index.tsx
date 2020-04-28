@@ -1,27 +1,27 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React from "react";
+import { inject, observer } from "mobx-react";
 
-import { Form, Input, Button, Checkbox, Radio } from 'antd';
+import { Form, Input, Button, Checkbox, Radio } from "antd";
 
-import history from 'global/history';
-import './style.sass';
+import history from "global/history";
+import "./style.sass";
 
 interface RegisterPageProps {
   authState?: any;
 }
 
-@inject("authState")
+@inject('authState')
 @observer
 class RegisterPage extends React.PureComponent<RegisterPageProps> {
   onSubmit = (values: any) => {
     const { authState } = this.props;
-    console.log(values)
+    console.log(values);
     authState.tryRegister({ ...values });
   };
 
   render() {
     return (
-      <div className={"pageContainer registerPage"}>
+      <div className={'pageContainer registerPage'}>
         <Form
           className="registerFormContainer"
           name="register"
@@ -31,7 +31,7 @@ class RegisterPage extends React.PureComponent<RegisterPageProps> {
           <Form.Item
             label="Логин"
             name="login"
-            rules={[{ required: true, message: 'Пожалуйста введите логин' }]}
+            rules={[{ required: true, message: "Пожалуйста введите логин" }]}
           >
             <Input />
           </Form.Item>
@@ -39,17 +39,17 @@ class RegisterPage extends React.PureComponent<RegisterPageProps> {
           <Form.Item
             label="Пароль"
             name="password"
-            rules={[{ required: true, message: 'Пожалуйста введите пароль' }]}
+            rules={[{ required: true, message: "Пожалуйста введите пароль" }]}
           >
             <Input.Password />
           </Form.Item>
 
-          <Form.Item  label="Роль" required = {true} name="role">
+          {/* <Form.Item  label="Роль" required = {true} name="role">
             <Radio.Group >
               <Radio.Button value="ROLE_STUDENT">Студент</Radio.Button>
               <Radio.Button value="ROLE_TRAINER">Тренер</Radio.Button>
             </Radio.Group>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item>
             <Button type="primary" htmlType="submit">

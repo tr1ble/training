@@ -1,19 +1,36 @@
-import React from "react";
-import { inject, observer } from "mobx-react";
+import React from 'react';
+import { inject, observer } from 'mobx-react';
 
-import { Form, Input, Button, Checkbox, Radio, Tabs, List, Modal } from 'antd';
+import moment from 'moment';
 
-import history from 'global/history';
-import './style.sass';
+import {
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  Radio,
+  Tabs,
+  List,
+  Modal,
+  Carousel,
+  DatePicker,
+  notification,
+} from "antd";
+
+import { CaretLeftFilled } from '@ant-design/icons';
+
+import history from "global/history";
+import "./style.sass";
 
 const { TabPane } = Tabs;
+const { RangePicker } = DatePicker;
 
 interface MenuProps {
   authState?: any;
   profileState?: any;
 }
 
-@inject("authState", "profileState")
+@inject('authState', 'profileState')
 @observer
 class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
   constructor(props: any) {
@@ -21,10 +38,14 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
     this.state = {
       selectedUser: false,
       selectedTrainer: false,
+      selectedStudent: false,
       selected: false,
       createTrainerModalVisible: false,
+      createCourseMode: false,
+      selectedCourse: false,
     };
     this.createTrainer = this.createTrainer.bind(this);
+    this.createCourse = this.createCourse.bind(this);
   }
 
   componentDidMount() {
@@ -50,19 +71,55 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
             <List.Item
               className={
                 login == user.login
-                  ? 'admin-profile-menu__users__selected'
-                  : 'admin-profile-menu__users__unselected'
+                  ? "admin-profile-menu__users__selected"
+                  : "admin-profile-menu__users__unselected"
               }
               onClick={() => {
                 this.setState({
                   selectedUser: user,
-                  select: "user",
+                  select: 'user'
                 });
               }}
             >
               <div>
                 {user.login} {user.role}
               </div>
+            </List.Item>
+          );
+        }}
+      />
+    );
+  }
+
+  getStudentsList() {
+    const { all_students } = this.props.profileState;
+    //const { login } = this.state.selectedStudent;
+    interface student {
+      // login: string;
+      // role: string;
+      // password: string;
+    }
+    return (
+      <List
+        size="default"
+        bordered
+        dataSource={all_students}
+        renderItem={(student: student) => {
+          return (
+            <List.Item
+              // className={
+              //   login == user.login
+              //     ? "admin-profile-menu__users__selected"
+              //     : "admin-profile-menu__users__unselected"
+              // }
+              onClick={() => {
+                this.setState({
+                  selectedUser: student,
+                  select: 'student'
+                });
+              }}
+            >
+              <div>228{/* {user.login} {user.role} */}</div>
             </List.Item>
           );
         }}
@@ -83,6 +140,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
         role: string;
         password: string;
       };
+      busy: boolean;
     }
 
     const login = user ? (user.login ? user.login : undefined) : undefined;
@@ -97,17 +155,20 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
             <List.Item
               className={
                 login == trainer.user.login
-                  ? 'admin-profile-menu__users__selected'
-                  : 'admin-profile-menu__users__unselected'
+                  ? "admin-profile-menu__users__selected"
+                  : "admin-profile-menu__users__unselected"
               }
               onClick={() => {
                 this.setState({
                   selectedTrainer: trainer,
-                  select: "trainer",
+                  select: 'trainer'
                 });
               }}
             >
-              <div>{trainer.user.login}</div>
+              <div>
+                {trainer.user.login} /{' '}
+                {trainer.busy === false ? "не занят" : "Занят"}
+              </div>
             </List.Item>
           );
         }}
@@ -117,7 +178,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
 
   getActions() {
     switch (this.state.select) {
-      case 'user':
+      case "user":
         return (
           <div className="admin-profile-menu__actions">
             <Button
@@ -145,7 +206,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
                   }}
                 >
                   Отмена
-                </Button>,
+                </Button>
               ]}
               onCancel={() => {
                 this.setState({ createTrainerModalVisible: false });
@@ -156,7 +217,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
                   label="Имя"
                   name="firstname"
                   rules={[
-                    { required: true, message: 'Пожалуйста введите имя' },
+                    { required: true, message: "Пожалуйста введите имя" }
                   ]}
                 >
                   <Input />
@@ -165,7 +226,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
                   label="Фамилия"
                   name="secondname"
                   rules={[
-                    { required: true, message: 'Пожалуйста введите фамилию' },
+                    { required: true, message: "Пожалуйста введите фамилию" }
                   ]}
                 >
                   <Input />
@@ -174,7 +235,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
                   label="Отчество"
                   name="surname"
                   rules={[
-                    { required: true, message: 'Пожалуйста введите отчество' },
+                    { required: true, message: "Пожалуйста введите отчество" }
                   ]}
                 >
                   <Input />
@@ -187,7 +248,7 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
           </div>
         );
 
-      case 'trainer':
+      case "trainer":
         return (
           <div className="admin-profile-menu__actions">
             <Button
@@ -208,23 +269,122 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
     }
   }
 
+  getShowCoursesPane() {
+    const { all_courses } = this.props.profileState;
+    return (
+      <div>
+        <Carousel
+          afterChange={currentSlide => {
+            this.setState({ selectedCourse: all_courses[currentSlide] });
+          }}
+          className={"admin-profile-menu__carousel"}
+        >
+          {all_courses.map(
+            (course: {
+              id: number;
+              title: string;
+              startDate: string;
+              endDate: string;
+              trainer: {
+                firstname: string;
+                secondname: string;
+                surname: string;
+                user: {
+                  login: string;
+                };
+              };
+            }) => {
+              return (
+                <div className={"admin-profile-menu__carousel-pane"}>
+                  <div className={"admin-profile-menu__carousel-pane"}>
+                    <div>{course.title}</div>
+                    <div>
+                      {course.startDate}-{course.endDate}
+                    </div>
+                    <div>{course.trainer.user.login}</div>
+                    <div>
+                      {course.trainer.firstname} / {course.trainer.secondname}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+          )}
+        </Carousel>
+
+        <div>
+          <Button
+            onClick={this.deleteCourse}
+            disabled={!this.state.selectedCourse}
+          >
+            Удалить курс
+          </Button>
+        </div>
+        <Button
+          onClick={() => {
+            this.setState({ createCourseMode: true });
+          }}
+        >
+          Создать новый курс
+        </Button>
+      </div>
+    );
+  }
+
+  getCreateCoursePane() {
+    return (
+      <div>
+        <CaretLeftFilled
+          onClick={() => {
+            this.setState({ createCourseMode: false });
+          }}
+          style={{ fontSize: "40px" }}
+        />
+        <Form name="createCourse" onFinish={this.createCourse}>
+          <Form.Item
+            label="Название курса"
+            name="title"
+            rules={[
+              { required: true, message: 'Пожалуйста введите название курса' },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Дата начала и окончания"
+            name="date"
+            rules={[{ required: true, message: "Пожалуйста введите даты" }]}
+          >
+            <RangePicker />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Создать
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    );
+  }
+
   render() {
     const { logOut, role, login } = this.props.authState;
     const { initAdminPage } = this.props.profileState;
 
     return (
-      <div className={"admin-profile-menu"}>
+      <div className={'admin-profile-menu'}>
         <div className="admin-profile-menu__users">
-          <Tabs className={'admin-profile-menu__tabs'} defaultActiveKey="users">
+          <Tabs className={"admin-profile-menu__tabs"} defaultActiveKey="users">
             <TabPane
-              className={'admin-profile-menu__tab-pane'}
+              className={"admin-profile-menu__tab-pane"}
               tab="Users"
               key="users"
             >
               {this.getUsersList()}
             </TabPane>
             <TabPane tab="Students" key="students">
-              Content of Tab Pane 1
+              {this.getStudentsList()}
             </TabPane>
             <TabPane tab="Trainers" key="trainers">
               {this.getTrainersList()}
@@ -233,9 +393,9 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
           {this.getActions()}
         </div>
         <div className="admin-profile-menu__courses">
-          <div>
-            {/* //Courses <Button onClick={initAdminPage}>init</Button> */}
-          </div>
+          {this.state.createCourseMode
+            ? this.getCreateCoursePane()
+            : this.getShowCoursesPane()}
         </div>
       </div>
     );
@@ -247,10 +407,10 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
     const { showAlert } = this.props.authState;
     deleteUser({ login })
       .then(() => {
-        showAlert("Пользователь успешно удалён");
+        showAlert('Пользователь успешно удалён');
       })
       .catch(() => {
-        showAlert("Ошибка при удалении пользователя");
+        showAlert('Ошибка при удалении пользователя');
       });
   }
 
@@ -258,19 +418,33 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
     const { user } = this.state.selectedTrainer;
     const { deleteTrainer } = this.props.profileState;
     const { showAlert } = this.props.authState;
-    //console.log(this.state.selectedTrainer);
     deleteTrainer({
       login: user.login,
       password: user.password,
-      id: this.state.selectedTrainer.id,
+      id: this.state.selectedTrainer.id
     })
       .then(() => {
-        showAlert("Тренер успешно удалён");
+        showAlert('Тренер успешно удалён');
       })
       .catch(() => {
-        showAlert("Ошибка при удалении тренера");
+        showAlert('Ошибка при удалении тренера');
       });
   }
+
+  deleteCourse = () => {
+    const { id } = this.state.selectedCourse;
+    const { deleteCourse } = this.props.profileState;
+    const { showAlert } = this.props.authState;
+    deleteCourse({
+      id
+    })
+      .then(() => {
+        showAlert('Курс успешно удалён');
+      })
+      .catch(() => {
+        showAlert('Ошибка при удалении тренера');
+      });
+  };
 
   async createTrainer(values: any) {
     const { showAlert } = this.props.authState;
@@ -279,15 +453,43 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
     try {
       await createTrainer({
         ...values,
-        user: selectedUser
+        user: selectedUser,
       });
       this.setState({ createTrainerModalVisible: false });
-      showAlert("Тренер создан");
+      showAlert('Тренер создан');
     } catch (e) {
       this.setState({ createTrainerModalVisible: false });
-      showAlert("Тренер не создан");
+      showAlert('Тренер не создан');
     }
     console.log(values);
+  }
+
+  async createCourse(values: any) {
+    const { showAlert } = this.props.authState;
+    const { selectedUser, selectedTrainer } = this.state;
+    const { createCourse } = this.props.profileState;
+    console.log(values);
+    const startDate = values.date[0].format('YYYY-MM-DD');
+    const endDate = values.date[0].format('YYYY-MM-DD');
+
+    if (selectedTrainer) {
+      console.log(selectedTrainer);
+      await createCourse({
+        title: values.title,
+        startDate,
+        endDate,
+        trainer: selectedTrainer
+      });
+      showAlert("Курс создан");
+    } else {
+      notification.open({
+        style: {
+          backgroundColor: "#e05a5a"
+        },
+        message: "Ошибка",
+        description: "Выберите тренера"
+      });
+    }
   }
 }
 
