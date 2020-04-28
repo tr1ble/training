@@ -54,6 +54,12 @@ public class AdminEditController {
 
     @RequestMapping(value = {"/course"}, method = RequestMethod.PUT)
     public ResponseEntity<Course> editCourse(@RequestBody Course course) {
+        int trainerId = course.getTrainer().getId();
+        Optional<Trainer> trainerOptional = trainerService.getById(trainerId);
+        if(trainerOptional.isPresent()) {
+            trainerOptional.get().setBusy(true);
+            trainerService.add(trainerOptional.get());
+        }
         courseService.update(course);
         return ResponseEntity.ok(course);
     }

@@ -54,6 +54,12 @@ public class AdminAddController {
 
     @RequestMapping(value = {"/course"}, method = RequestMethod.POST)
     public Course addCourse(@RequestBody(required = false) Course course) {
+        int trainerId = course.getTrainer().getId();
+        Optional<Trainer> trainerOptional = trainerService.getById(trainerId);
+        if(trainerOptional.isPresent()) {
+            trainerOptional.get().setBusy(true);
+            trainerService.add(trainerOptional.get());
+        }
         return courseService.add(course);
     }
 
