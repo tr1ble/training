@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @RestController
@@ -22,14 +23,14 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @RequestMapping(value = {"/registration"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/registration"}, method = RequestMethod.POST)
     public Student registration(@RequestBody Student student) throws IOException {
         return studentService.add(student);
     }
 
     @RequestMapping(value = {"/unregister"}, method = RequestMethod.POST)
-    public void unregister(@RequestParam(STUDENT_ID) int studentId)  {
-        studentService.remove(studentId);
+    public void unregister(@RequestBody Map<String, Integer> data)  {
+        studentService.remove(data.get("student_id"));
     }
 
    
