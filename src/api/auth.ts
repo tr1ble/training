@@ -1,9 +1,11 @@
-import getInstance from "api/getInstance";
+import getInstance from 'api/getInstance';
+import { strict } from 'assert';
+import Axios from 'axios';
 
 export async function register({
   login,
   password,
-  role,
+  role
 }: {
   login: string;
   password: string;
@@ -11,10 +13,10 @@ export async function register({
 }) {
   const instance = await getInstance();
 
-  const response = await instance.post("/register", {
+  const response = await instance.post('/register', {
     login,
     password,
-    role
+    role,
   });
 
   return response.data;
@@ -22,17 +24,59 @@ export async function register({
 
 export async function loginAttempt({
   login,
-  password,
+  password
 }: {
   login: string;
   password: string;
 }) {
   const instance = await getInstance();
 
-  const response = await instance.post('/login', {
+  const response = await instance.post("/login", {
     login,
-    password
+    password,
   });
+
+  return response.data;
+}
+
+export async function getAllUsers() {
+  const instance = await getInstance();
+
+  const response = await instance.post("/users");
+
+  console.log(response);
+
+  return response.data;
+}
+
+export async function updateUserRole({
+  login,
+  role,
+  password,
+}: {
+  login: string;
+  role: string;
+  password: string;
+}) {
+  const instance = await getInstance();
+
+  const response = await instance.put("/user", {
+    login,
+    role,
+    password,
+  });
+
+  console.log(response);
+
+  return response.data;
+}
+
+export async function deleteUser({ login }: { login: string }) {
+  const instance = await getInstance();
+
+  const response = await instance.delete(`/user/${login}`);
+
+  console.log(response);
 
   return response.data;
 }

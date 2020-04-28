@@ -1,16 +1,16 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React from "react";
+import { inject, observer } from "mobx-react";
 
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox } from "antd";
 
-import history from 'global/history';
-import './style.sass';
+import history from "global/history";
+import "./style.sass";
 
 interface AuthPageProps {
   authState?: any;
 }
 
-@inject("authState")
+@inject('authState')
 @observer
 class AuthPage extends React.PureComponent<AuthPageProps> {
   onSubmit = (values: any) => {
@@ -18,11 +18,15 @@ class AuthPage extends React.PureComponent<AuthPageProps> {
     authState.tryLogin({ ...values });
   };
 
+  componentDidMount() {
+    this.props.authState.autoLogin();
+  }
+
   render() {
     return (
-      <div className={"pageContainer authPage"}>
+      <div className={'pageContainer authPage'}>
         <Form
-          className={'authFormContainer'}
+          className={"authFormContainer"}
           name="login"
           initialValues={{ remember: true }}
           onFinish={this.onSubmit}
@@ -30,7 +34,7 @@ class AuthPage extends React.PureComponent<AuthPageProps> {
           <Form.Item
             label="Логин"
             name="login"
-            rules={[{ required: true, message: "Пожалуйста введите логин" }]}
+            rules={[{ required: true, message: 'Пожалуйста введите логин' }]}
           >
             <Input />
           </Form.Item>
@@ -38,7 +42,7 @@ class AuthPage extends React.PureComponent<AuthPageProps> {
           <Form.Item
             label="Пароль"
             name="password"
-            rules={[{ required: true, message: 'Пожалуйста введите пароль' }]}
+            rules={[{ required: true, message: "Пожалуйста введите пароль" }]}
           >
             <Input.Password />
           </Form.Item>
@@ -51,7 +55,7 @@ class AuthPage extends React.PureComponent<AuthPageProps> {
         </Form>
         <Button
           onClick={() => {
-            history.push('/register');
+            history.push("/register");
           }}
         >
           На страницу регистрации

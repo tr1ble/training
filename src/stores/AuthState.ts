@@ -8,8 +8,15 @@ class AuthState {
   @observable isAlertVisible = false;
   @observable textAlert = "";
   @observable typeAlert: "warning" | "error" | "success" = "warning";
-  @observable login = "";
-  @observable role: "ROLE_STUDEND" | "ROLE_TRAINER" | "ROLE_ADMIN" | undefined = undefined;
+
+  @observable login = '';
+
+  @observable role:
+    | "ROLE_STUDENT"
+    | "ROLE_TRAINER"
+    | "ROLE_ADMINISTRATOR"
+    | undefined = undefined;
+
   @observable authorized = false;
 
   @action logOut = () => {
@@ -18,6 +25,9 @@ class AuthState {
       this.login = "";
       this.role = undefined;
     });
+    localStorage.setItem('authorized', "false");
+    localStorage.setItem('login', "");
+    localStorage.setItem('role', "");
   };
 
   @action hideAlert = () => {
@@ -49,8 +59,7 @@ class AuthState {
     login,
     password,
     role
-  }:
-  {
+  }: {
     login: string;
     password: string;
     role: string;
@@ -76,13 +85,39 @@ class AuthState {
     password: string;
   }) => {
     try {
-      const {token} = await loginAttempt({ login, password });
+      const { token, role } = await loginAttempt({ login, password });
       runInAction(() => {
-       this.authorized = true
-       this.login = login
+        this.authorized = true;
+        this.login = login;
+        this.role = role;
       });
+      localStorage.setItem('authorized', "true");
+      localStorage.setItem('login', login);
+      localStorage.setItem('role', role);
     } catch (error) {
       this.showAlert("Ошибка входа", "error");
+    }
+  };
+
+  @action autoLogin = async () => {
+    const authorized = localStorage.getItem('authorized') == 'true';
+    const login = localStorage.getItem("login");
+    const role = localStorage.getItem("role");
+
+    const resRole = role === null ? undefined : role;
+
+    if (
+      resRole == "ROLE_STUDENT" ||
+      resRole == "ROLE_TRAINER" ||
+      resRole == "ROLE_ADMINISTRATOR"
+    ) {
+      if (authorized && login) {
+        runInAction(() => {
+          this.authorized = true;
+          this.role = resRole;
+          this.login = login;
+        });
+      }
     }
   };
 
