@@ -42,7 +42,7 @@ public class Trainer extends Man implements Identifable {
 
     @Basic
     @ManyToOne
-    @JoinColumn(name = "login", nullable = false)
+    @JoinColumn(name = "login", nullable = false, unique = true)
     @NonNull
     private User user;
 

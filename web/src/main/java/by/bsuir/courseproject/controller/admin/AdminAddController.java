@@ -66,6 +66,12 @@ public class AdminAddController {
 
     @RequestMapping(value = {"/trainer"}, method = RequestMethod.POST)
     public ResponseEntity<Trainer> addTrainer(@RequestBody(required = false) Trainer trainer) {
+        Optional<User> userOptional = userService.getUserByLogin(trainer.getUser().getLogin());
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setRole(Role.valueOf("ROLE_TRAINER"));
+            userService.add(user);
+        }
         return new ResponseEntity<>(trainerService.add(trainer), HttpStatus.OK);
     }
 
