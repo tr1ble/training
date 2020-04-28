@@ -20,7 +20,6 @@ public class Course implements Identifable {
     @Basic
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Pattern(regexp = "\\d*", message = "It must be number")
     private int id;
 
     @ManyToOne
@@ -35,13 +34,11 @@ public class Course implements Identifable {
 
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
-    @Pattern(regexp = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))", message = "Invalid date format(must be yyyy-MM-dd)")
     @NonNull
     private Date startDate;
 
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
-    @Pattern(regexp = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))", message = "Invalid date format(must be yyyy-MM-dd)")
     @NonNull
     private Date endDate;
 
