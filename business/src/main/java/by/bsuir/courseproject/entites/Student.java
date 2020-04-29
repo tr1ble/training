@@ -28,7 +28,6 @@ public class Student extends Man implements Identifable {
 
     @ManyToOne
     @JoinColumn(name="course_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @Basic

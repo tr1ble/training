@@ -1,14 +1,18 @@
 package by.bsuir.courseproject.entites;
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.*;
 import java.util.Date;
 
 
 @Entity
-@Table(name="course")
+@Table(name="courses")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,6 +45,17 @@ public class Course implements Identifable {
     @Temporal(TemporalType.DATE)
     @NonNull
     private Date endDate;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Student> studentList;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Task> taskList;
+
 
 
     @Override
