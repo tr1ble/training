@@ -1,6 +1,8 @@
 package by.bsuir.courseproject.entites;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -24,8 +26,9 @@ public class CompletedTask extends Task {
    @Column(name="feedback", nullable = false)
    private String feedback;
 
-   @ManyToOne(cascade = CascadeType.REMOVE)
+   @ManyToOne
    @JoinColumn(name="student_id")
+   @OnDelete(action = OnDeleteAction.CASCADE)
    private Student student;
 
 }

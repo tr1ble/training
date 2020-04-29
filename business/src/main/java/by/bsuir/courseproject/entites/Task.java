@@ -1,6 +1,8 @@
 package by.bsuir.courseproject.entites;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -29,6 +31,7 @@ public class Task implements Identifable {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     @NonNull
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @Basic

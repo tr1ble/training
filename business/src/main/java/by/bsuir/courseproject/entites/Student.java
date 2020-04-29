@@ -1,6 +1,8 @@
 package by.bsuir.courseproject.entites;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -24,8 +26,9 @@ public class Student extends Man implements Identifable {
     @JoinColumn(name="user_login")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name="course_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @Basic
