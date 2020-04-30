@@ -53,6 +53,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findByCourse(Course course) {
-        return null;
+        return taskRepository.findByCourse(course);
     }
 }

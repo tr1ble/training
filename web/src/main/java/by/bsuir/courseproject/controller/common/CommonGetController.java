@@ -129,7 +129,12 @@ public class CommonGetController {
     @RequestMapping(value = "/tasks/findByCourse/{id}", method = {RequestMethod.POST, RequestMethod.GET})
     public ResponseEntity<List<Task>> getTasksById(@PathVariable int id) {
         Optional<Course> courseOptional = courseService.findById(id);
-        return courseOptional.map(course -> ResponseEntity.ok(taskService.findByCourse(course))).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        if(courseOptional.isPresent()) {
+            return ResponseEntity.ok(taskService.findByCourse(courseOptional.get()));
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/task/{id}", method = {RequestMethod.POST, RequestMethod.GET})
