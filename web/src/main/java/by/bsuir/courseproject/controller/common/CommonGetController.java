@@ -57,7 +57,7 @@ public class CommonGetController {
         return courseOptional.map(course -> new ResponseEntity<>(course, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "/course/findByTrainer/{id}", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/courses/findByTrainer/{id}", method = {RequestMethod.POST, RequestMethod.GET})
     public ResponseEntity<List<Course>> getCourseByTrainer(@PathVariable int id) {
         Optional<Trainer> trainerOptional = trainerService.getById(id);
         return trainerOptional.map(trainer -> ResponseEntity.ok(courseService.findByTrainer(trainer))).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -86,7 +86,7 @@ public class CommonGetController {
     }
 
 
-    @RequestMapping(value = "/completedtasks/{id}", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/completedtask/{id}", method = {RequestMethod.POST, RequestMethod.GET})
     public ResponseEntity<CompletedTask> getCompletedTaskById(@PathVariable int id) {
         Optional<CompletedTask> taskOptional = completedTaskService.findById(id);
         return taskOptional.map(task -> new ResponseEntity<>(task, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
