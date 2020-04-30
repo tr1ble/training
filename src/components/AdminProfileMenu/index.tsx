@@ -95,6 +95,11 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
     const { all_students } = this.props.profileState;
     //const { login } = this.state.selectedStudent;
     interface student {
+      firstname: string;
+      surname: string;
+      user: {
+        login: string;
+      };
       // login: string;
       // role: string;
       // password: string;
@@ -119,7 +124,11 @@ class AdminProfileMenu extends React.PureComponent<MenuProps, any> {
                 });
               }}
             >
-              <div>228{/* {user.login} {user.role} */}</div>
+              <div>
+                <p>Логин {student.user.login}</p>
+                {/* <p>Имя {student.firstname}</p> */}
+                {/* <p>Фамилия {student.surname}</p> */}
+              </div>
             </List.Item>
           );
         }}

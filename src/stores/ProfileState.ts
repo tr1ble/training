@@ -12,6 +12,8 @@ import {
   createCourse,
   deleteCourse,
   registerToCourse,
+  unregisterToCourse,
+  getTasksByCourse
 } from 'api/courses';
 import { getAllTrainers, createTrainer, deleteTrainer } from 'api/trainers';
 import { getAllStudents, getStudent } from 'api/students';
@@ -25,12 +27,14 @@ class ProfileState {
     | 'ROLE_TRAINER'
     | 'ROLE_ADMINISTRATOR'
     | undefined = "ROLE_STUDENT";
-  @observable loginedStudent = false;
-  @observable myCourse = false;
+  @observable loginedStudent: any = false;
+  @observable myCourse: any = false;
   @observable all_users = [];
   @observable all_students = [];
   @observable all_trainers = [];
   @observable all_courses = [];
+
+  @observable all_tasks_by_course = [];
 
   @action initAdminPage = async () => {
     try {
@@ -43,10 +47,28 @@ class ProfileState {
     }
   };
 
+  @action clearStudentProfile = () => {
+    runInAction(() => {
+      this.loginedStudent = false;
+      this.myCourse = false;
+    });
+  };
+
   @action initStudentProfile = async () => {
     try {
       //this.getStudent({})
       this.getAllCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action getAllTasksByCourse = async () => {
+    try {
+      const response = await getTasksByCourse({ id: this.myCourse.id });
+      runInAction(() => {
+        this.all_tasks_by_course = response;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -175,8 +197,7 @@ class ProfileState {
   }) => {
     try {
       await createCourse({ title, startDate, endDate, trainer });
-      //await updateUserRole({ login: user.login, role: "ROLE_TRAINER" });
-      //this.getAllUsers();
+
       this.getAllTrainers();
       this.getAllCourses();
     } catch (error) {
@@ -199,10 +220,19 @@ class ProfileState {
   }) => {
     try {
       await registerToCourse({ firstname, surname, secondname, user, course });
-      //await updateUserRole({ login: user.login, role: "ROLE_TRAINER" });
-      //this.getAllUsers();
-      //this.getAllTrainers();
-      //this.getAllCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  leaveCourse = async () => {
+    try {
+      await unregisterToCourse({ id: this.loginedStudent.id });
+
+      runInAction(() => {
+        this.myCourse = false;
+        this.loginedStudent = false;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -211,16 +241,12 @@ class ProfileState {
   @action getLoginedStudent = async ({ username }: { username: string }) => {
     try {
       const result = await getStudent({ username });
-      //console.log("!");
-      //console.log(res);
+      await this.getAllTasksByCourse();
+
       runInAction(() => {
         this.myCourse = result.course;
         this.loginedStudent = result;
       });
-      //await updateUserRole({ login: user.login, role: "ROLE_TRAINER" });
-      //this.getAllUsers();
-      //this.getAllTrainers();
-      //this.getAllCourses();
     } catch (error) {
       console.log(error);
     }

@@ -4,11 +4,21 @@
 .registerPage
     display: flex
     justify-content: center
+    flex-direction: column
     align-items: center
-    background-color: $YELLOW
+    //background-color: $YELLOW
 
     .registerFormContainer
         display: flex
         justify-content: center
-        //align-items: center
+        align-items: center
         flex-direction: column
+        padding-right: 70px
+        .ant-form-item-label
+            width: 70px
+
+        .ant-form-item-control
+            width: 400px
+        .ant-btn
+            margin-right: -70px
+            width: 220px

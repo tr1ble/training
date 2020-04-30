@@ -1,5 +1,5 @@
-import React from 'react';
-import { inject, observer } from "mobx-react";
+import React from "react";
+import { inject, observer } from 'mobx-react';
 
 import {
   Form,
@@ -13,24 +13,32 @@ import {
   Carousel,
   DatePicker,
   notification,
-} from "antd";
+  Timeline,
+  Card,
+  Popconfirm,
+  Collapse
+} from 'antd';
 
-import history from "global/history";
-import "./style.sass";
+import moment from "moment";
+import history from 'global/history';
+import './style.sass';
+import { toJS } from "mobx";
+
+const { Panel } = Collapse;
 
 interface MenuProps {
   authState?: any;
   profileState?: any;
 }
 
-@inject("authState", "profileState")
+@inject('authState', 'profileState')
 @observer
 class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       selectedCourse: false,
-      createStudentModalVisible: false,
+      createStudentModalVisible: false
     };
   }
 
@@ -41,16 +49,20 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     getLoginedStudent({ username: login });
   }
 
+  componentWillUnmount = () => {
+    this.props.profileState.clearStudentProfile();
+  };
+
   getCoursesPane = () => {
     const { all_courses } = this.props.profileState;
     return (
-      <div>
+      <div className={'allCourses'}>
         <Carousel
           autoplay={!this.state.createStudentModalVisible}
           afterChange={currentSlide => {
             this.setState({ selectedCourse: all_courses[currentSlide] });
           }}
-          className={"student-profile-menu__carousel"}
+          className={'student-profile-menu__carousel'}
         >
           {all_courses.map(
             (course: {
@@ -68,8 +80,8 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
               };
             }) => {
               return (
-                <div className={"student-profile-menu__carousel-pane"}>
-                  <div className={"student-profile-menu__carousel-pane"}>
+                <div className={'student-profile-menu__carousel-pane'}>
+                  <div className={'student-profile-menu__carousel-pane'}>
                     <div>
                       <div>{course.title}</div>
                       <div>
@@ -104,18 +116,23 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
               }}
             >
               Отмена
-            </Button>,
+            </Button>
           ]}
           onCancel={() => {
             this.setState({ createStudentModalVisible: false });
           }}
         >
           <Form name="createTrainer" onFinish={this.registerStudent}>
-            <div>Название курса: {this.state.selectedCourse.title}</div>
+            <div>
+              Название курса:{" "}
+              {this.state.selectedCourse
+                ? this.state.selectedCourse.title
+                : null}
+            </div>
             <Form.Item
               label="Имя"
               name="firstname"
-              rules={[{ required: true, message: "Пожалуйста введите имя" }]}
+              rules={[{ required: true, message: 'Пожалуйста введите имя' }]}
             >
               <Input />
             </Form.Item>
@@ -123,7 +140,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
               label="Фамилия"
               name="secondname"
               rules={[
-                { required: true, message: 'Пожалуйста введите фамилию' },
+                { required: true, message: "Пожалуйста введите фамилию" }
               ]}
             >
               <Input />
@@ -132,7 +149,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
               label="Отчество"
               name="surname"
               rules={[
-                { required: true, message: 'Пожалуйста введите отчество' },
+                { required: true, message: "Пожалуйста введите отчество" }
               ]}
             >
               <Input />
@@ -146,17 +163,99 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     );
   };
 
+  getCurrentTasks = () => {
+    const { all_tasks_by_course } = this.props.profileState;
+    return (
+      <div>
+        {all_tasks_by_course.map((task: { title: string }) => {
+          return <div>task</div>;
+        })}
+      </div>
+    );
+  };
+
+  getMarkedTasks = () => {
+    return <div>228</div>;
+  };
+
   getMyCoursePane = () => {
-    return <div>test</div>;
+    const { myCourse, loginedStudent } = this.props.profileState;
+    console.log(toJS(myCourse));
+    return (
+      <div className={'myCourses'}>
+        <div className="course">
+          <Card
+            extra={
+              <Popconfirm
+                okText="Да"
+                onConfirm={() => {
+                  this.leaveCourse();
+                }}
+                cancelText="Нет"
+                title="Вы уверены что хотите отказаться от курса?"
+              >
+                <a>Отказаться от курса</a>
+              </Popconfirm>
+            }
+            title={"Курс:  " + myCourse.title}
+          >
+            <div>
+              <Card className="trainer" title="Тренер">
+                <p>Имя: {myCourse.trainer.firstname}</p>
+                <p>Фамилия: {myCourse.trainer.surname}</p>
+                <a>Профиль</a>
+              </Card>
+              <Timeline>
+                <Timeline.Item color="green">
+                  Начало курса:
+                  {" " + moment(myCourse.startDate).format("YYYY-MM-DD")}
+                </Timeline.Item>
+                <Timeline.Item color="red">
+                  <p>
+                    Окончание курса:{" "}
+                    {" " + moment(myCourse.endDate).format("YYYY-MM-DD")}
+                  </p>
+                  <p>Выдача сертификатов</p>
+                </Timeline.Item>
+              </Timeline>
+            </div>
+          </Card>
+        </div>
+        <div className="tasks">
+          <div className="student">
+            <Card title="Студент">
+              <div>
+                {loginedStudent.firstname +
+                  ' ' +
+                  loginedStudent.surname +
+                  ' ' +
+                  loginedStudent.secondname}
+              </div>
+              <div />
+            </Card>
+          </div>
+          <div className="tasks">
+            <Collapse className="collapse">
+              <Panel header="Текущие задания" key="1">
+                {this.getCurrentTasks()}
+              </Panel>
+            </Collapse>
+            <Collapse className="collapse">
+              <Panel header="Проверенные задания" key="1">
+                {this.getMarkedTasks()}
+              </Panel>
+            </Collapse>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   render() {
     const { myCourse } = this.props.profileState;
     return (
-      <div className={"student-profile-menu"}>
-        <div className={"allCourses"}>
-          {myCourse ? this.getMyCoursePane() : this.getCoursesPane()}
-        </div>
+      <div className={'student-profile-menu'}>
+        {myCourse ? this.getMyCoursePane() : this.getCoursesPane()}
       </div>
     );
   }
@@ -164,7 +263,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
   registerStudent = async (values: any) => {
     const { showAlert, login, password, role } = this.props.authState;
     //const { selectedUser } = this.state;
-    const { createStudent } = this.props.profileState;
+    const { createStudent, getLoginedStudent } = this.props.profileState;
     try {
       await createStudent({
         ...values,
@@ -172,16 +271,30 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
         user: {
           login,
           password,
-          role
-        }
+          role,
+        },
       });
+
+      await getLoginedStudent({ username: login });
       this.setState({ createTrainerModalVisible: false });
-      showAlert('Запись на курс успешна');
+      showAlert("Вы успешно записаны на курс");
     } catch (e) {
       this.setState({ createTrainerModalVisible: false });
-      showAlert('Тренер не создан');
+      showAlert("Тренер не создан");
     }
     console.log(values);
+  };
+
+  leaveCourse = async () => {
+    const { login } = this.props.authState;
+    const {
+      initStudentProfile,
+      getLoginedStudent,
+      leaveCourse,
+    } = this.props.profileState;
+    await leaveCourse();
+    initStudentProfile();
+    getLoginedStudent({ username: login });
   };
 }
 

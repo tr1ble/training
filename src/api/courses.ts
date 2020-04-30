@@ -16,6 +16,14 @@ export async function deleteCourse({ id }: { id: number }) {
   return response.data;
 }
 
+export async function getTasksByCourse({ id }: { id: number }) {
+  const instance = await getInstance();
+
+  const response = await instance.get(`/tasks/findByCourse/${id}`);
+
+  return response.data;
+}
+
 export async function createCourse({
   title,
   startDate,
@@ -61,6 +69,16 @@ export async function registerToCourse({
     secondname,
     user,
     course,
+  });
+
+  return response.data;
+}
+
+export async function unregisterToCourse({ id }: { id: number }) {
+  const instance = await getInstance();
+
+  const response = await instance.post('/unregister', {
+    student_id: id
   });
 
   return response.data;
