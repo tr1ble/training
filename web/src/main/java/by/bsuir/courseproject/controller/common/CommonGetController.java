@@ -74,7 +74,7 @@ public class CommonGetController {
         return studentOptional.map(student -> ResponseEntity.ok(completedTaskService.findByStudent(student))).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "/completedtasks/findByStudent/{mark}", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/completedtasks/findByMark/{mark}", method = {RequestMethod.POST, RequestMethod.GET})
     public ResponseEntity<List<CompletedTask>> getCompletedTasksByMark(@PathVariable double mark) {
         return ResponseEntity.ok(completedTaskService.findByMark(mark));
     }
