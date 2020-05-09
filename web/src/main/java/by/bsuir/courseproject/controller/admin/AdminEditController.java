@@ -91,7 +91,7 @@ public class AdminEditController {
     }
 
     @RequestMapping(value = {"/completedTask"}, method = RequestMethod.PUT)
-    public ResponseEntity<CompletedTask> editTrainer(@RequestBody CompletedTask completedTask) {
+    public ResponseEntity<CompletedTask> editCompletedTask(@RequestBody CompletedTask completedTask) {
         completedTaskService.update(completedTask);
         return ResponseEntity.ok(completedTask);
     }
