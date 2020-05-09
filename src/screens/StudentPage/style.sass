@@ -1,44 +1,53 @@
 @import "global/colors.scss"
 
-
-.trainer-profile-menu
-    width: 100%
-    min-height: 100%
+.loadingContainer
     display: flex
+    flex-direction: column
     .spin
         flex: auto
-        width: 100%
-        
         display: flex
         justify-content: center
         align-items: center
-    .trainer
-        width: 45%
-        border: 1px solid black
-        .items
-            &:hover   
-                background-color: red
-            cursor: pointer
-            display: flex
-            align-items: center
-            height: 40px
-            padding: 5px
-            border: 1px solid black
-            font-size: 15px
-            margin: 5px 0px
-    .tasks
-        width: 100%
-        border: 1px solid black
+
+.studentPage
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+
+    border: 1px solid black
+    &__top
         display: flex
-        flex-direction: column
-        .tasklist
-            min-height: 200px
+        margin: 5px
+        border: 1px solid black
+        height: 100%
+        .card
+            width: 40%
+        .progress
+            padding: 60px
+            width: 60%
             display: flex
+            font-size: 20px
+            //align-items: center
+            justify-content: space-between
             flex-direction: column
-            max-height: 500px
+    &__main
+        border: 1px solid black
+        margin: 5px
+        height: 100%
+        flex: 1
+        display: flex
+        .tasklist
             overflow-y: scroll
             border: 1px solid black
+            width: 40%
+            margin: 5px
             .taskItem
+                &_active
+                    background-color: #6c945a91
+                &:hover
+                    background-color: #93945a79
+                cursor: pointer
                 display: flex
                 flex-direction: column
                 min-height: 100px
@@ -56,3 +65,7 @@
                     flex: 1
                     padding: 5px 10px
                     font-size: 16px
+        .selectedTask
+            border: 1px solid black
+            width: 70%
+            margin: 5px

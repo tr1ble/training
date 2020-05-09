@@ -16,21 +16,30 @@ import './style.sass';
 
 interface HeaderProps {
   authState?: any;
+  profileState?: any;
 }
 
-@inject("authState")
+@inject("authState", "profileState")
 @observer
 class Header extends React.PureComponent<HeaderProps> {
   render() {
     const { logOut, role, login } = this.props.authState;
+    const { clearProfile } = this.props.profileState;
     return (
       <div className={'header'}>
- <PageHeader
+        <PageHeader
           className="site-page-header"
           title="Профиль"
           //breadcrumb={{ routes }}
           extra={[
-            <Button onClick={logOut} type="primary" key="3">
+            <Button
+              onClick={() => {
+                logOut();
+                clearProfile();
+              }}
+              type="primary"
+              key="3"
+            >
               Выйти из профиля
             </Button>
           ]}

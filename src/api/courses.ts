@@ -1,9 +1,9 @@
-import getInstance from "api/getInstance";
+import getInstance from 'api/getInstance';
 
 export async function getAllCourses() {
   const instance = await getInstance();
 
-  const response = await instance.post("/courses", {});
+  const response = await instance.post('/courses', {});
 
   return response.data;
 }
@@ -24,11 +24,19 @@ export async function getTasksByCourse({ id }: { id: number }) {
   return response.data;
 }
 
+export async function getCourseByTrainer({ id }: { id: number }) {
+  const instance = await getInstance();
+
+  const response = await instance.get(`/courses/findByTrainer/${id}`);
+
+  return response.data;
+}
+
 export async function createCourse({
   title,
   startDate,
   endDate,
-  trainer
+  trainer,
 }: {
   title: string;
   startDate: string;
@@ -37,12 +45,12 @@ export async function createCourse({
 }) {
   const instance = await getInstance();
 
-  const response = await instance.post('/course', {
+  const response = await instance.post("/course", {
     // id: 100,
     title,
     startDate,
     endDate,
-    trainer
+    trainer,
   });
 
   return response.data;
@@ -53,7 +61,7 @@ export async function registerToCourse({
   surname,
   secondname,
   user,
-  course
+  course,
 }: {
   firstname: string;
   surname: string;
@@ -63,12 +71,12 @@ export async function registerToCourse({
 }) {
   const instance = await getInstance();
 
-  const response = await instance.post('/student', {
+  const response = await instance.post("/student", {
     firstname,
     surname,
     secondname,
     user,
-    course,
+    course
   });
 
   return response.data;
@@ -77,8 +85,92 @@ export async function registerToCourse({
 export async function unregisterToCourse({ id }: { id: number }) {
   const instance = await getInstance();
 
-  const response = await instance.post('/unregister', {
-    student_id: id
+  const response = await instance.post("/unregister", {
+    student_id: id,
+  });
+
+  return response.data;
+}
+
+export async function createTask({
+  title,
+  description,
+  course,
+}: {
+  title: string;
+  description: string;
+  course: any;
+}) {
+  const instance = await getInstance();
+
+  const response = await instance.post("/task", {
+    title,
+    description,
+    course
+  });
+
+  return response.data;
+}
+
+export async function createCompletedTask({
+  title,
+  description,
+  course,
+  feedback,
+  mark,
+  student,
+  id,
+}: {
+  id: number;
+  title: string;
+  description: string;
+  feedback: string;
+  course: any;
+  mark: number;
+  student: any;
+}) {
+  const instance = await getInstance();
+
+  const response = await instance.post("/completedtask", {
+    title,
+    description,
+    course,
+    feedback,
+    mark,
+    student,
+    id,
+  });
+
+  return response.data;
+}
+
+export async function updateCompletedTask({
+  title,
+  description,
+  course,
+  feedback,
+  mark,
+  student,
+  id,
+}: {
+  id: number;
+  title: string;
+  description: string;
+  feedback: string;
+  course: any;
+  mark: number;
+  student: any;
+}) {
+  const instance = await getInstance();
+
+  const response = await instance.put("/completedTask", {
+    title,
+    description,
+    course,
+    feedback,
+    mark,
+    student,
+    id,
   });
 
   return response.data;

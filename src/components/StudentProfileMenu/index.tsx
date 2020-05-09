@@ -16,7 +16,8 @@ import {
   Timeline,
   Card,
   Popconfirm,
-  Collapse
+  Collapse,
+  Spin,
 } from 'antd';
 
 import moment from "moment";
@@ -168,14 +169,21 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     return (
       <div>
         {all_tasks_by_course.map((task: { title: string }) => {
-          return <div>task</div>;
+          return <div>task {task.title}</div>;
         })}
       </div>
     );
   };
 
   getMarkedTasks = () => {
-    return <div>228</div>;
+    const { completedTasks } = this.props.profileState;
+    return (
+      <div>
+        {completedTasks.map((task: { title: string }) => {
+          return <div>task {task.title}</div>;
+        })}
+      </div>
+    );
   };
 
   getMyCoursePane = () => {
@@ -252,10 +260,18 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
   };
 
   render() {
-    const { myCourse } = this.props.profileState;
+    const { myCourse, loading } = this.props.profileState;
     return (
       <div className={'student-profile-menu'}>
-        {myCourse ? this.getMyCoursePane() : this.getCoursesPane()}
+        {loading ? (
+          <div className="spin">
+            <Spin size="large" />
+          </div>
+        ) : myCourse ? (
+          this.getMyCoursePane()
+        ) : (
+          this.getCoursesPane()
+        )}
       </div>
     );
   }

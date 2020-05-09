@@ -9,7 +9,8 @@ interface RouteType {
 }
 
 const mainRoutes: RouteType[] = [
-  { exact: true, route: screens.ProfilePage, path: "/" }
+  { exact: true, route: screens.ProfilePage, path: "/" },
+  { exact: true, route: screens.StudentPage, path: "/student" }
 ];
 
 export default mainRoutes;

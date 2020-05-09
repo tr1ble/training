@@ -62,7 +62,7 @@ class App extends React.PureComponent<AppProps> {
 
             <Switch>
               {this.getRoutes()}
-              <Route component={screens.PageNotFound} />
+              <Route path="*" component={screens.PageNotFound} />
             </Switch>
           </div>
         </Router>

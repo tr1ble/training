@@ -1,9 +1,9 @@
-import getInstance from 'api/getInstance';
+import getInstance from "api/getInstance";
 
 export async function getAllTrainers() {
   const instance = await getInstance();
 
-  const response = await instance.post('/trainers');
+  const response = await instance.post("/trainers");
   console.log(response);
   return response.data;
 }
@@ -20,7 +20,7 @@ export async function createTrainer({
   firstname,
   surname,
   secondname,
-  user,
+  user
 }: {
   firstname: string;
   surname: string;
@@ -33,13 +33,23 @@ export async function createTrainer({
 }) {
   const instance = await getInstance();
 
-  const response = await instance.post("/trainer", {
+  const response = await instance.post('/trainer', {
     firstname,
     surname,
     secondname,
     user,
-    busy: false
+    busy: false,
   });
+
+  return response.data;
+}
+
+export async function getTrainer({ username }: { username: string }) {
+  const instance = await getInstance();
+
+  const response = await instance.get(`/trainers/findByUser/${username}`);
+
+  console.log(response);
 
   return response.data;
 }
