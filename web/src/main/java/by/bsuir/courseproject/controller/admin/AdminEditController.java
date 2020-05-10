@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -89,7 +90,7 @@ public class AdminEditController {
         return ResponseEntity.ok(student);
 
     }
-
+    
     @RequestMapping(value = {"/completedTask"}, method = RequestMethod.PUT)
     public ResponseEntity<CompletedTask> editCompletedTask(@RequestBody CompletedTask completedTask) {
         completedTaskService.update(completedTask);
