@@ -24,6 +24,7 @@ public class Course implements Identifable {
     @Basic
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
     private int id;
 
     @ManyToOne
@@ -56,6 +57,9 @@ public class Course implements Identifable {
     @JsonIgnore
     private List<Task> taskList;
 
+    public Course(int id) {
+        this.id=id;
+    }
 
 
     @Override

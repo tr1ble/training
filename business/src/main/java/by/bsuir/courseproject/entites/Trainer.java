@@ -46,6 +46,9 @@ public class Trainer extends Man implements Identifable {
     @NonNull
     private User user;
 
+    public Trainer(int id) {
+        this.id=id;
+    }
 
 
     @Override
