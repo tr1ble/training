@@ -61,6 +61,13 @@ public class Course implements Identifable {
         this.id=id;
     }
 
+    public Course(@NonNull Trainer trainer, @NonNull String title, @NonNull Date startDate, @NonNull Date endDate) {
+        this.trainer = trainer;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
 
     @Override
     public Integer getId() {
