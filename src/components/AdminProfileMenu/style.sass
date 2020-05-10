@@ -5,19 +5,38 @@
     width: 100%
     display: flex
     justify-content: space-between
+    .ant-tabs-content
+        &>div
+            background-color: #fff
+        background-color: #fff
+    .ant-tabs-content-animated
+        background-color: #fff
     &__tab-pane
+        //background-color: #fff
         overflow: scroll
         max-height: 1000px
     &__tabs
+        .ant-tabs-nav
+            font-size: 20px !important
         width: 60%
     &__actions
+        button
+            margin-top: 20px
+            width: 200px
+       
+        background-color: #fff
+        height: 300px
+        font-size: 16px
         border: 1px solid black
         width: 35%
         margin: 5%
+        margin-top: 71px
         display: flex
         flex-direction: column
         align-items: center
-        padding-top: 2%
+        padding-top: 50px
+        //justify-content: center
+        //padding-top: 2%
         &>button
             margin: 25px 0px
     &>div
@@ -27,20 +46,29 @@
         width: 100%
         padding: 1% 1%
         &__selected
-             background-color: #a09245
+             background-color: #cac7b3
         &__unselected
             cursor: pointer
             &:hover
-                background-color: #af8b8b
+                background-color: #c0d4ee
     &__courses
+        .create
+            background-color: #fff
+            padding: 20px
+            border: 1px solid black
         width: 80%
         display: flex
         flex-direction: column
         align-items: center
         padding-top: 2%
+        button
+            margin-top: 20px
+            width: 200px
     &__carousel
+        background-color: #fff
         width: 100%
         max-width: 500px
+
         .slick-slide
             text-align: center;
             min-height: 180px;
@@ -54,4 +82,31 @@
             flex-direction: column
             padding: 20px
             min-height: 180px
+            .title
+                span
+                    color: black
+                    //font-size: 30px
+                    font-weight: 800 !important
+                width: 100%
+                border-bottom: 1px solid black
+                height: 48px
+                display: flex
+                justify-content: flex-start
+                font-size: 24px
+                color: #5a5a5ac9
+            .date
+                margin: 20px 0px
+                font-size: 22px
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+            .trainer
+                height: 50px
+                display: flex
+                align-items: center
+                padding-left: 30px
+                font-size: 24px
+                border-bottom: 1px solid black
 
+
+            
+
+    

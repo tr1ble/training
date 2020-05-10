@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from "mobx-react";
-
+import { CloseCircleFilled, CheckCircleTwoTone } from '@ant-design/icons';
 import {
   Form,
   Input,
@@ -15,6 +15,7 @@ import {
   notification,
   Timeline,
   Card,
+  Descriptions,
   Popconfirm,
   Collapse,
   Progress,
@@ -105,11 +106,36 @@ class StudentPage extends React.PureComponent<StudentPageProps, any> {
                 : "taskItem"
             }
           >
-            <div className="taskItem__title">
+            <Descriptions title={task.title}>
+              <Descriptions.Item
+                style={{ fontWeight: 'bold' }}
+                span={2}
+                label="Описание"
+              >
+                {task.description}
+              </Descriptions.Item>
+
+              <Descriptions.Item
+                style={{ display: "flex", justifyContent: "flex-end" }}
+                span={1}
+              >
+                {this.searchTaskInCompleted(task) ? (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <CheckCircleTwoTone
+                      style={{ fontSize: '40px' }}
+                      twoToneColor="#52c41a"
+                    />
+                  </div>
+                ) : (
+                  <div />
+                )}
+              </Descriptions.Item>
+            </Descriptions>
+            {/* <div className="taskItem__title">
               {task.title}
               <div>{this.searchTaskInCompleted(task) ? "completed" : ''}</div>
             </div>
-            <div className="taskItem__description">{task.description}</div>
+            <div className="taskItem__description">{task.description}</div> */}
           </div>
         );
       }
@@ -133,7 +159,8 @@ class StudentPage extends React.PureComponent<StudentPageProps, any> {
       if (selectedTask.completed != undefined) {
         if (editTaskMode) {
           return (
-            <div>
+            <div className="edit">
+              <div className="title">Редактирование оценки</div>
               <div>
                 <Form
                   name="updateCompletedTask"
@@ -184,17 +211,18 @@ class StudentPage extends React.PureComponent<StudentPageProps, any> {
                   this.setState({ editTaskMode: false });
                 }}
               >
-                Stop edit
+                Отмена
               </Button>
             </div>
           );
         }
         return (
-          <div>
-            <div>
-              <div>{selectedTask.title}</div>
-              <div>{selectedTask.description}</div>
-              <div>{selectedTask.mark}</div>
+          <div className="show">
+            <div className="text">Оценка выставлена</div>
+            <div className="container">
+              <div className="title">{selectedTask.title}</div>
+              <div className="description">{selectedTask.description}</div>
+              <div className="mark">Оценка: {selectedTask.mark}</div>
             </div>
             <Button
               onClick={() => {
@@ -207,7 +235,8 @@ class StudentPage extends React.PureComponent<StudentPageProps, any> {
         );
       }
       return (
-        <div>
+        <div className="create">
+          <div className="title">Оценка не выставлена</div>
           <div>
             <Form
               name="createCompletedTask"
@@ -256,7 +285,7 @@ class StudentPage extends React.PureComponent<StudentPageProps, any> {
       );
     }
 
-    return <div>Выберите задание</div>;
+    return <div className="empty">Выберите задание</div>;
   };
 
   render() {

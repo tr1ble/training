@@ -1,21 +1,21 @@
-import React from "react";
-import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { inject, observer } from "mobx-react";
 
-import { Router, Route, Switch, RouteProps } from "react-router-dom";
+import { Router, Route, Switch, RouteProps } from 'react-router-dom';
 
-import * as screens from 'screens';
-import routes from "routes";
-import history from 'global/history';
+import * as screens from "screens";
+import routes from 'routes';
+import history from "global/history";
 
-import { Alert } from 'antd';
+import { Alert } from "antd";
 
-import "./App.css";
+import './App.css';
 
 interface AppProps {
   authState?: any;
 }
 
-@inject("authState")
+@inject('authState')
 @observer
 class App extends React.PureComponent<AppProps> {
   getRoutes() {
@@ -40,15 +40,15 @@ class App extends React.PureComponent<AppProps> {
       typeAlert,
       authorized,
       setAuthorized,
-      hideAlert,
+      hideAlert
     } = this.props.authState;
     return (
       <>
         <Router history={history}>
-          <div className={"appContainer"}>
+          <div className={'appContainer'}>
             {isAlertVisible && (
               <Alert
-                className={'alertContainer'}
+                className={"alertContainer"}
                 message={textAlert}
                 type={typeAlert}
                 closable

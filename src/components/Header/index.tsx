@@ -1,5 +1,6 @@
 import React from "react";
 import { inject, observer } from 'mobx-react';
+import { UserOutlined } from '@ant-design/icons';
 
 import {
   Form,
@@ -8,7 +9,8 @@ import {
   Checkbox,
   Radio,
   PageHeader,
-  Descriptions
+  Descriptions,
+  Avatar,
 } from 'antd';
 
 import history from 'global/history';
@@ -27,7 +29,35 @@ class Header extends React.PureComponent<HeaderProps> {
     const { clearProfile } = this.props.profileState;
     return (
       <div className={'header'}>
-        <PageHeader
+        <div className="left">
+          <Avatar size={75} shape="square" icon={<UserOutlined />} />
+          <div className="info">
+            <div>Логин: {login}</div>
+            <div>
+              {role == "ROLE_STUDENT"
+                ? "Студент"
+                : role == "ROLE_TRAINER"
+                ? "Тренер"
+                : "Администратор"}
+            </div>
+          </div>
+        </div>
+        <div className="right">
+          {/*  <Avatar size={75} shape="square" icon={<UserOutlined />} /> */}
+          <div className="out">
+            <Button
+              onClick={() => {
+                logOut();
+                clearProfile();
+              }}
+              type="primary"
+              key="3"
+            >
+              Выйти из учётной записи
+            </Button>
+          </div>
+        </div>
+        {/* <PageHeader
           className="site-page-header"
           title="Профиль"
           //breadcrumb={{ routes }}
@@ -54,8 +84,7 @@ class Header extends React.PureComponent<HeaderProps> {
           <Descriptions size="small" column={3}>
             <Descriptions.Item label="Логин: ">{login}</Descriptions.Item>
           </Descriptions>
-        </PageHeader>
-        ,
+        </PageHeader> */}
       </div>
     );
   }

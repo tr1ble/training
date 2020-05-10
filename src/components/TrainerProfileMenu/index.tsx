@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-
+import { ClockCircleOutlined } from "@ant-design/icons";
 import {
   Form,
   Input,
@@ -15,7 +15,9 @@ import {
   notification,
   Timeline,
   Card,
+  Badge,
   Popconfirm,
+  Popover,
   Collapse,
   Spin,
 } from "antd";
@@ -71,15 +73,17 @@ class TrainerProfileMenu extends React.PureComponent<MenuProps, any> {
           <div
             onClick={() => {
               this.props.trainerState.selectedStudent = student;
-              console.log(500);
-              console.log(myCourse);
               this.props.trainerState.course = { ...myCourse };
               this.props.trainerState.courseTasks = all_tasks_by_course;
               history.push("student");
             }}
             className="items"
           >
-            {student.firstname + student.surname}
+            {student.firstname +
+              ' ' +
+              student.surname +
+              ' ' +
+              student.secondname}
           </div>
         );
       }
@@ -92,8 +96,26 @@ class TrainerProfileMenu extends React.PureComponent<MenuProps, any> {
       (task: { title: string; mark: number; description: string }) => {
         return (
           <div className="taskItem">
-            <div className="taskItem__title">{task.title}</div>
-            <div className="taskItem__description">{task.description}</div>
+            <div className="taskItem__title">
+              {task.title}{" "}
+              {/* <Popover
+                placement="topLeft"
+                title="Предупреждение"
+                content={<div>Задание не выполнено</div>}
+                trigger="hover"
+              >
+                <Badge
+                  color="#2db7f5"
+                  count={<ClockCircleOutlined style={{ color: "#f5222d" }} />}
+                >
+                  <a href="#" className="head-example" />
+                </Badge>
+              </Popover> */}
+            </div>
+            <div className="taskItem__description">
+              <div className="bg" />
+              {task.description}
+            </div>
           </div>
         );
       }

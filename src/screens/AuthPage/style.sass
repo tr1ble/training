@@ -5,19 +5,51 @@
     justify-content: center
     flex-direction: column
     align-items: center
-    //background-color: $YELLOW
-
+    
+    background-image: url("/images/login.jpg")
+    //background-blend-mode: color-burn
+    background-size: cover
     .authFormContainer
+        display: flex
+    .register_link
+        width: 100px !important
+        margin: 0 !important
+        padding: 0 !important
+        height: 10px !important
+        padding-left: -200px
+    .left
+        display: flex
+        align-items: center
+        justify-content: center
+        padding: 30px
+        color:  #f0f0f0ef;
+        font-size: 25px
+        background-color: #3d64cfd2;
+        height: 340px
+        width: 300px
+    .right
+        padding: 0px 40px
+        color: #ffffff !important;
+        height: 340px
+        width: 450px
+        background-color: #f0f0f08f;
         display: flex
         justify-content: center
         align-items: center
         flex-direction: column
-        padding-right: 70px
         .ant-form-item-label
-            width: 70px
+            width: 90px
+            label
+                color: #242424c4 !important;
+                font-size: 20px
+                font-weight: bold
+                display: flex
+               
 
         .ant-form-item-control
             width: 300px
         .ant-btn
-            margin-right: -70px
-            width: 120px
+            margin: 20px
+            //margin-right: -70px
+            height: 45px
+            width: 370px !important

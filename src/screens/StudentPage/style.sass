@@ -10,6 +10,8 @@
         align-items: center
 
 .studentPage
+    background-image: url('/images/bg5.jpg')
+    background-size: cover
     width: 100%
     height: 100%
     display: flex
@@ -17,13 +19,15 @@
 
     border: 1px solid black
     &__top
+        margin-top: 20px
         display: flex
-        margin: 5px
+        margin: 20px
         border: 1px solid black
         height: 100%
         .card
             width: 40%
         .progress
+            background-color: #fff
             padding: 60px
             width: 60%
             display: flex
@@ -32,28 +36,34 @@
             justify-content: space-between
             flex-direction: column
     &__main
-        border: 1px solid black
+        //border: 1px solid black
         margin: 5px
         height: 100%
         flex: 1
         display: flex
         .tasklist
+            background-color: #fff
             overflow-y: scroll
-            border: 1px solid black
+            border: 1px solid #a7a7a7
             width: 40%
             margin: 5px
             .taskItem
+                box-sizing: border-box
                 &_active
-                    background-color: #6c945a91
+                    background-color: #b8c4c391
+                    border: 2px solid  #57f86593
                 &:hover
-                    background-color: #93945a79
+                    background-color: #68aaff79
+                    background-blend-mode: exclusion
                 cursor: pointer
                 display: flex
                 flex-direction: column
                 min-height: 100px
-                border: 1px solid black
+                border: 2px solid  #a7a7a762
                 font-size: 15px
                 margin: 10px 20px
+                padding: 10px
+                padding-right: 30px
                 &__title
                     border: 1px solid black
                     width: 100%
@@ -66,6 +76,64 @@
                     padding: 5px 10px
                     font-size: 16px
         .selectedTask
+            background-color: #fff
             border: 1px solid black
             width: 70%
             margin: 5px
+            .empty
+                display: flex
+                align-items: center
+                justify-content: center
+                font-size: 35px
+                height: 100%
+            .create
+                padding: 30px
+                .title
+                    font-size: 30px
+                    margin-bottom: 40px
+                    margin-left: 10px
+                .ant-form-item
+                    &-label
+                        //background-color: #b36565
+                        width: 120px
+                    &:last-child
+                        input
+                           //max-width: 400px
+                input
+                    max-width: 200px
+                button
+                    margin-top: 30px
+                    margin-left: 100px
+                    width: 350px
+                    
+            .show
+                padding: 30px
+                .text
+                    font-size: 30px
+                    margin-bottom: 20px
+                    border-bottom: 1px solid black
+                .title
+                    content: 'название'
+                    font-size: 25px
+                .description
+                .mark
+                    margin-top: 15px
+                    border-top: 1px solid black
+                    font-size: 35px
+                button
+                    margin-top: 40px
+            .edit
+                padding: 30px
+                .title
+                    font-size: 25px
+                    margin-bottom: 10px
+                .ant-form-item
+                    &-label
+                        //background-color: #b36565
+                        width: 120px
+                input
+                    max-width: 400px
+                button
+                    margin-top: 30px
+                    margin-left: 100px
+                    width: 350px

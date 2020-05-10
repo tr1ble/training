@@ -25,41 +25,53 @@ class AuthPage extends React.PureComponent<AuthPageProps> {
   render() {
     return (
       <div className={'pageContainer authPage'}>
-        <Form
-          className={"authFormContainer"}
-          name="login"
-          initialValues={{ remember: true }}
-          onFinish={this.onSubmit}
-        >
-          <Form.Item
-            label="Логин"
+        <div className={"authFormContainer"}>
+          <div className="left">Даунский текст про курсы</div>
+          <Form
+            className={"right"}
             name="login"
-            rules={[{ required: true, message: 'Пожалуйста введите логин' }]}
+            initialValues={{ remember: true }}
+            onFinish={this.onSubmit}
           >
-            <Input />
-          </Form.Item>
+            <Form.Item
+              style={{ fontWeight: "bold" }}
+              label="Логин"
+              name="login"
+              rules={[{ required: true, message: 'Пожалуйста введите логин' }]}
+            >
+              <Input />
+            </Form.Item>
 
-          <Form.Item
-            label="Пароль"
-            name="password"
-            rules={[{ required: true, message: "Пожалуйста введите пароль" }]}
-          >
-            <Input.Password />
-          </Form.Item>
+            <Form.Item
+              style={{ fontWeight: "bold" }}
+              label="Пароль"
+              name="password"
+              rules={[{ required: true, message: "Пожалуйста введите пароль" }]}
+            >
+              <Input.Password />
+            </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Вход
+            <Form.Item>
+              <Button
+                style={{ fontWeight: "bold" }}
+                type="primary"
+                htmlType="submit"
+              >
+                Вход
+              </Button>
+            </Form.Item>
+
+            <Button
+              className="register_link"
+              type="link"
+              onClick={() => {
+                history.push("/register");
+              }}
+            >
+              На страницу регистрации
             </Button>
-          </Form.Item>
-        </Form>
-        <Button
-          onClick={() => {
-            history.push("/register");
-          }}
-        >
-          На страницу регистрации
-        </Button>
+          </Form>
+        </div>
       </div>
     );
   }

@@ -4,6 +4,7 @@
     display: flex;
     min-height: 100vh;
     justify-content: center;
+    background-color: black;
    /*  align-items: center; */
 }
 
@@ -14,9 +15,16 @@
 }
 
 .alertContainer {
+    background-color: rgba(255, 255, 255, 0.945);
     position: absolute;
-    min-height: 100px;
-    min-width: 400px;
+    min-height: 120px;
+    font-size: 18px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.445);
+    color: black;
+    border: 2px solid rgba(0, 0, 0, 0.308);
+    box-shadow: ;
+    border-radius: 10px;
+    min-width: 420px;
     z-index: 150;
-    margin-bottom: 35%;
+    margin-top: 15%;
 }

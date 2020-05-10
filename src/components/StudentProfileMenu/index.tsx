@@ -1,6 +1,6 @@
-import React from "react";
-import { inject, observer } from 'mobx-react';
-
+import React from 'react';
+import { inject, observer } from "mobx-react";
+import { CloseCircleFilled, CheckCircleTwoTone } from '@ant-design/icons';
 import {
   Form,
   Input,
@@ -9,21 +9,23 @@ import {
   Radio,
   Tabs,
   List,
+  Result,
   Modal,
   Carousel,
   DatePicker,
   notification,
+  Descriptions,
   Timeline,
   Card,
   Popconfirm,
   Collapse,
-  Spin,
-} from 'antd';
+  Spin
+} from "antd";
 
-import moment from "moment";
-import history from 'global/history';
-import './style.sass';
-import { toJS } from "mobx";
+import moment from 'moment';
+import history from "global/history";
+import "./style.sass";
+import { toJS } from 'mobx';
 
 const { Panel } = Collapse;
 
@@ -32,14 +34,14 @@ interface MenuProps {
   profileState?: any;
 }
 
-@inject('authState', 'profileState')
+@inject("authState", "profileState")
 @observer
 class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       selectedCourse: false,
-      createStudentModalVisible: false
+      createStudentModalVisible: false,
     };
   }
 
@@ -57,110 +59,127 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
   getCoursesPane = () => {
     const { all_courses } = this.props.profileState;
     return (
-      <div className={'allCourses'}>
-        <Carousel
-          autoplay={!this.state.createStudentModalVisible}
-          afterChange={currentSlide => {
-            this.setState({ selectedCourse: all_courses[currentSlide] });
-          }}
-          className={'student-profile-menu__carousel'}
-        >
-          {all_courses.map(
-            (course: {
-              id: number;
-              title: string;
-              startDate: string;
-              endDate: string;
-              trainer: {
-                firstname: string;
-                secondname: string;
-                surname: string;
-                user: {
-                  login: string;
+      <>
+        <div className="info">Выберите курс из представленных ниже</div>
+        <div className={"allCourses"}>
+          <Carousel
+            autoplay={!this.state.createStudentModalVisible}
+            afterChange={currentSlide => {
+              this.setState({ selectedCourse: all_courses[currentSlide] });
+            }}
+            className={"student-profile-menu__carousel"}
+          >
+            {all_courses.map(
+              (course: {
+                id: number;
+                title: string;
+                startDate: string;
+                endDate: string;
+                trainer: {
+                  firstname: string;
+                  secondname: string;
+                  surname: string;
+                  user: {
+                    login: string;
+                  };
                 };
-              };
-            }) => {
-              return (
-                <div className={'student-profile-menu__carousel-pane'}>
-                  <div className={'student-profile-menu__carousel-pane'}>
-                    <div>
-                      <div>{course.title}</div>
+              }) => {
+                return (
+                  <div className={"student-profile-menu__carousel-pane"}>
+                    <div className={'student-profile-menu__carousel-pane'}>
                       <div>
-                        {course.startDate}-{course.endDate}
+                        <div className="title">
+                          Наименование курса: <div> {course.title}</div>
+                        </div>
+                        <div className="date">
+                          <div>Даты проведения курсов</div>
+                          <div>
+                            {moment(course.startDate).format("YY-MM-DD")} --{' '}
+                            {moment(course.endDate).format("YY-MM-DD")}
+                          </div>
+                        </div>
+                        <div className="trainer">
+                          <div>
+                            Тренер:{" "}
+                            {course.trainer.firstname +
+                              " " +
+                              course.trainer.secondname}
+                          </div>
+                        </div>
                       </div>
-                      <div>{course.trainer.user.login}</div>
-                      <div>
-                        {course.trainer.firstname} / {course.trainer.secondname}
-                      </div>
+                      <Button
+                        onClick={() => {
+                          if (this.state.selectedCourse) {
+                            this.setState({ createStudentModalVisible: true });
+                          }
+                        }}
+                      >
+                        Записаться на курс
+                      </Button>
                     </div>
-                    <Button
-                      onClick={() => {
-                        this.setState({ createStudentModalVisible: true });
-                      }}
-                    >
-                      Записаться на курс
-                    </Button>
                   </div>
+                );
+              }
+            )}
+          </Carousel>
+          <Modal
+            title="Запись на курс"
+            visible={this.state.createStudentModalVisible}
+            footer={[
+              <Button
+                key="back"
+                onClick={() => {
+                  this.setState({ createStudentModalVisible: false });
+                }}
+              >
+                Отмена
+              </Button>,
+            ]}
+            onCancel={() => {
+              this.setState({ createStudentModalVisible: false });
+            }}
+          >
+            <Form name="createTrainer" onFinish={this.registerStudent}>
+              <div style={{ fontWeight: 800, marginBottom: '15px' }}>
+                <div style={{ fontWeight: 400, marginBottom: '0px' }}>
+                  Название курса:{' '}
                 </div>
-              );
-            }
-          )}
-        </Carousel>
-        <Modal
-          title="Запись на курс"
-          visible={this.state.createStudentModalVisible}
-          footer={[
-            <Button
-              key="back"
-              onClick={() => {
-                this.setState({ createStudentModalVisible: false });
-              }}
-            >
-              Отмена
-            </Button>
-          ]}
-          onCancel={() => {
-            this.setState({ createStudentModalVisible: false });
-          }}
-        >
-          <Form name="createTrainer" onFinish={this.registerStudent}>
-            <div>
-              Название курса:{" "}
-              {this.state.selectedCourse
-                ? this.state.selectedCourse.title
-                : null}
-            </div>
-            <Form.Item
-              label="Имя"
-              name="firstname"
-              rules={[{ required: true, message: 'Пожалуйста введите имя' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Фамилия"
-              name="secondname"
-              rules={[
-                { required: true, message: "Пожалуйста введите фамилию" }
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Отчество"
-              name="surname"
-              rules={[
-                { required: true, message: "Пожалуйста введите отчество" }
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Button type="primary" htmlType="submit">
-              Записаться
-            </Button>
-          </Form>
-        </Modal>
-      </div>
+                {this.state.selectedCourse
+                  ? this.state.selectedCourse.title
+                  : null}
+              </div>
+              <Form.Item
+                label="Имя"
+                name="firstname"
+                rules={[{ required: true, message: "Пожалуйста введите имя" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Фамилия"
+                name="secondname"
+                rules={[
+                  { required: true, message: 'Пожалуйста введите фамилию' },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Отчество"
+                name="surname"
+                rules={[
+                  { required: true, message: 'Пожалуйста введите отчество' },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Button type="primary" htmlType="submit">
+                Записаться
+              </Button>
+            </Form>
+          </Modal>
+        </div>
+      </>
     );
   };
 
@@ -168,9 +187,21 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     const { all_tasks_by_course } = this.props.profileState;
     return (
       <div>
-        {all_tasks_by_course.map((task: { title: string }) => {
-          return <div>task {task.title}</div>;
-        })}
+        {all_tasks_by_course.map(
+          (task: { description: string; title: string }) => {
+            return (
+              <div className="task">
+                <Descriptions title={task.title}>
+                  <Descriptions.Item label="Описание">
+                    {task.description}
+                  </Descriptions.Item>
+                </Descriptions>
+                {/* <div className="title">{task.title}</div>
+                <div className="desctiption">{task.description}</div> */}
+              </div>
+            );
+          }
+        )}
       </div>
     );
   };
@@ -179,9 +210,52 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     const { completedTasks } = this.props.profileState;
     return (
       <div>
-        {completedTasks.map((task: { title: string }) => {
-          return <div>task {task.title}</div>;
-        })}
+        {completedTasks.map(
+          (task: {
+            mark: number;
+            description: string;
+            feedback: string;
+            title: string;
+          }) => {
+            return (
+              <div className="task">
+                <Descriptions title={task.title}>
+                  <Descriptions.Item
+                    style={{ fontWeight: 'bold' }}
+                    span={2}
+                    label="Описание"
+                  >
+                    {task.description}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={1} label="Оценка">
+                    {task.mark}
+                  </Descriptions.Item>
+                  <Descriptions.Item span={3}>
+                    {task.mark >= 4 ? (
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <CheckCircleTwoTone
+                          style={{ fontSize: '30px' }}
+                          twoToneColor="#52c41a"
+                        />{' '}
+                        Задание выполнено на положительную оценку
+                      </div>
+                    ) : (
+                      <div>
+                        <CloseCircleFilled style={{ fontSize: '30px' }} />{' '}
+                        Задание не выполнено, свяжитесь с преподавателем
+                      </div>
+                    )}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Отзыв">
+                    {task.feedback}
+                  </Descriptions.Item>
+                </Descriptions>
+                {/* <div className="title">{task.title}</div>
+                <div className="desctiption">{task.description}</div> */}
+              </div>
+            );
+          }
+        )}
       </div>
     );
   };
@@ -190,7 +264,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     const { myCourse, loginedStudent } = this.props.profileState;
     console.log(toJS(myCourse));
     return (
-      <div className={'myCourses'}>
+      <div className={"myCourses"}>
         <div className="course">
           <Card
             extra={
@@ -205,7 +279,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
                 <a>Отказаться от курса</a>
               </Popconfirm>
             }
-            title={"Курс:  " + myCourse.title}
+            title={'Курс:  ' + myCourse.title}
           >
             <div>
               <Card className="trainer" title="Тренер">
@@ -216,12 +290,12 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
               <Timeline>
                 <Timeline.Item color="green">
                   Начало курса:
-                  {" " + moment(myCourse.startDate).format("YYYY-MM-DD")}
+                  {' ' + moment(myCourse.startDate).format('YYYY-MM-DD')}
                 </Timeline.Item>
                 <Timeline.Item color="red">
                   <p>
-                    Окончание курса:{" "}
-                    {" " + moment(myCourse.endDate).format("YYYY-MM-DD")}
+                    Окончание курса:{' '}
+                    {' ' + moment(myCourse.endDate).format('YYYY-MM-DD')}
                   </p>
                   <p>Выдача сертификатов</p>
                 </Timeline.Item>
@@ -234,9 +308,9 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
             <Card title="Студент">
               <div>
                 {loginedStudent.firstname +
-                  ' ' +
+                  " " +
                   loginedStudent.surname +
-                  ' ' +
+                  " " +
                   loginedStudent.secondname}
               </div>
               <div />
@@ -262,7 +336,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
   render() {
     const { myCourse, loading } = this.props.profileState;
     return (
-      <div className={'student-profile-menu'}>
+      <div className={"student-profile-menu"}>
         {loading ? (
           <div className="spin">
             <Spin size="large" />
@@ -287,16 +361,16 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
         user: {
           login,
           password,
-          role,
-        },
+          role
+        }
       });
 
       await getLoginedStudent({ username: login });
       this.setState({ createTrainerModalVisible: false });
-      showAlert("Вы успешно записаны на курс");
+      showAlert('Вы успешно записаны на курс');
     } catch (e) {
       this.setState({ createTrainerModalVisible: false });
-      showAlert("Тренер не создан");
+      showAlert('Тренер не создан');
     }
     console.log(values);
   };
@@ -306,7 +380,7 @@ class StudentProfileMenu extends React.PureComponent<MenuProps, any> {
     const {
       initStudentProfile,
       getLoginedStudent,
-      leaveCourse,
+      leaveCourse
     } = this.props.profileState;
     await leaveCourse();
     initStudentProfile();
