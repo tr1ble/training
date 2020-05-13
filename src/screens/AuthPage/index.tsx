@@ -26,7 +26,7 @@ class AuthPage extends React.PureComponent<AuthPageProps> {
     return (
       <div className={'pageContainer authPage'}>
         <div className={"authFormContainer"}>
-          <div className="left">Даунский текст про курсы</div>
+          <div className="left">Онлайн курсы</div>
           <Form
             className={"right"}
             name="login"
